@@ -1,0 +1,37 @@
+
+
+.calc h2 {
+    margin-left: 75px;
+}
+
+#show {
+    padding: 5px;
+    padding-inline: 20px;
+}
+
+.btn {
+    width: 50px;
+    padding: 3px;
+    font-size: medium;
+}
+
+
+.btnOperator {
+    width: 50px;
+    padding: 3px;
+    font-size: medium;
+    background-color: rgb(245, 191, 129);
+}
+
+#btnEqual {
+    width: 50px;
+    padding: 3px;
+    font-size: medium;
+    background-color: rgb(245, 191, 129);
+}
+
+#btnZero {
+    width: 105px;
+    padding: 3px;
+    font-size: medium;
+}
