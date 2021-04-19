@@ -1,1 +1,3 @@
-# Calculator
+# Calculator (계산기)
+
+자바와 제이쿼리를 이용해서 계산기 만들기
