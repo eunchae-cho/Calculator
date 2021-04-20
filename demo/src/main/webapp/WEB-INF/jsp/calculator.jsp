@@ -108,6 +108,7 @@
                         },
                         error: function() {
                             $('#show').val('잘못된 값');
+                            $('#clear').val('ac');
                             flag = 0;
                         }
                      });
