@@ -2,21 +2,36 @@
 
 .calc h2 {
     margin-left: 75px;
+    margin-bottom: unset;
 }
 
 #show {
-    padding: 5px;
-    padding-inline: 20px;
+    padding-block: 5px;
+    padding-right: 8px;
+    text-align: right;
+    margin-block: 20px;
+    font-size: larger;
 }
 
-.btn {
+.btn-box {
+    margin-left: 3px;
+}
+
+.btn-box .btn {
     width: 50px;
     padding: 3px;
     font-size: medium;
 }
 
 
-.btnOperator {
+.btn-box .btnOperator {
+    width: 50px;
+    padding: 3px;
+    font-size: medium;
+    background-color: rgb(245, 191, 129);
+}
+
+#clear {
     width: 50px;
     padding: 3px;
     font-size: medium;
