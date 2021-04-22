@@ -24,26 +24,8 @@ public class CalculatorController {
         String[] formulaArr = formula.split(",");   // ','로 구분한 계산식을 배열로 담기
         float temp = 0;                             // 순서대로 연산을 하기 위해 임시로 담는 값
 
-        // 누적 계산 시 두번째 인덱스가 "" 공백으로 넘어옴 => [전연산결과][][부호][숫자]
-        // 세번째 인덱스부터 한 칸씩 앞으로 이동한다 => [전연산결과][부호][숫자][null]
-        if(formulaArr[1].equals("")) {
-            for (int i = 1; i < formulaArr.length - 1; i++) {
-                formulaArr[i] = formulaArr[i + 1];
-            }
-            formulaArr[formulaArr.length - 1] = null;   // 맨 마지막 인덱스 값 null
-            
-        }
-
-        // formulaArr의 두번째 인덱스가 부호가 아닐 때 한 칸씩 앞으로 자리 이동
-        // 이럴 경우 처음 인덱스 값이 전의 계산된 결과값이기 때문 
-        // [전연산결과][입력숫자1][부호][입력숫자2] => [입력숫자1][부호][입력숫자2]
-        if (!isOperator(formulaArr[1])) {
-            for(int i = 0; i < formulaArr.length - 1; i++) {
-                formulaArr[i] = formulaArr[i + 1];
-            }
-            formulaArr[formulaArr.length - 1] = null;
-        }
-        System.out.println(Arrays.toString(formulaArr));
+        checkSecondIndexIsBlank(formulaArr);
+        checkSecondIndexIsOperator(formulaArr);
 
         for (int i = 0; i < formulaArr.length; i++) {
             if (i % 2 == 0) {                               // 인덱스 값이 짝수일 때 숫자, 홀수일 때 부호
@@ -105,18 +87,34 @@ public class CalculatorController {
         }
         return false;
     }
-}
 
-
-// 계산식의 숫자와 부호를 구분하기 위해 타입을 구분해주는 클래스
-class TypeTest {
-    
-    public String type(String str) {
-        return "typeString";
+    // 누적 계산 시 두번째 인덱스가 "" 공백으로 넘어옴 => [전연산결과][][부호][숫자]
+    // 세번째 인덱스부터 한 칸씩 앞으로 이동한다 => [전연산결과][부호][숫자][null]
+    public String[] checkSecondIndexIsBlank(String[] formulaArr) {
+        if(formulaArr[1].equals("")) {
+            for (int i = 1; i < formulaArr.length - 1; i++) {
+                formulaArr[i] = formulaArr[i + 1];
+            }
+            formulaArr[formulaArr.length - 1] = null;   // 맨 마지막 인덱스 값 null
+            return formulaArr;
+        } else {
+            return formulaArr;
+        }
     }
 
-    public String type(float f) {
-        return "typeFloat";
+    // formulaArr의 두번째 인덱스가 부호가 아닐 때 한 칸씩 앞으로 자리 이동
+    // 이럴 경우 처음 인덱스 값이 전의 계산된 결과값이기 때문 
+    // [전연산결과][입력숫자1][부호][입력숫자2] => [입력숫자1][부호][입력숫자2]
+    public String[] checkSecondIndexIsOperator(String[] formulaArr) {
+         if (!isOperator(formulaArr[1])) {
+            for(int i = 0; i < formulaArr.length - 1; i++) {
+                formulaArr[i] = formulaArr[i + 1];
+            }
+            formulaArr[formulaArr.length - 1] = null;
+            return formulaArr;
+        }
+        return formulaArr;
+
     }
 }
 
