@@ -79,6 +79,7 @@
          <script>
             // flag가 '0'일 때는 최초의 상태 
              var flag = 0;
+
              $(function () {
                  // '=' 버튼 클릭시 
                  $('#btnEqual').on('click', function () {
@@ -114,6 +115,8 @@
                      });
                  });
 
+
+
                  // 숫자 버튼 클릭 시 
                  $('.btn').on('click', function () {
                     if (flag == 0) {
@@ -130,6 +133,8 @@
                     var sendNumber = $('#send').val();
                     $('#send').val(sendNumber + $(this).val());
                  })
+
+
 
                  // 부호 버튼 클릭 시
                  $('.btnOperator').on('click', function () {
@@ -166,24 +171,34 @@
                     }
                 })
 
-                 // 'ac' 버튼 클릭시 
+
+
+                 // 취소 버튼 클릭 시 (기본값 : ac)
                  $('#clear').on('click', function () {
                     var show = $('#show').val();
                     var send = $('#send').val();
                     // 만약 계산 중 'c' 버튼을 눌렀을 때, 
                     // 보이는 부분 show와 계산식 send의 마지막 ',숫자 혹은 부호,'를 없애기
                     if ($('#clear').val() == 'c') {
-                        console.log("c-clear")
-                        $('#show').val(show.substring(0, send.length - 3));
-                        $('#send').val(send.substring(0, send.length - 3));
+                        console.log("c-clear");
+                        show = show.substring(0, show.length - 1);
+                        $('#show').val(show);
+                        if (show == '') {
+                            $('#clear').val('ac');  // 더 이상 지울게 없을 때 다시 'ac'로 초기화
+                            $('#show').val('');     // 보여주는 곳도 초기화
+                            $('#send').val('');     // 값 넘겨주는 곳도 초기화
+                        }
+                        send = send.substring(0, send.length - 3);
+                        $('#send').val(send);
                     } else {
-                        console.log("ac-clear")
-                        $('#show').val('0');
+                        console.log("ac-clear");
+                        $('#show').val('');
                         $('#send').val('');
-                        flag = 0;
                     }
                  })
                  
+
+
                  //  보여지는 부분 show 초기화
                  function showInit() {
                      if (flag == 0) {
