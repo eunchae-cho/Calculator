@@ -2,7 +2,10 @@ package com.example.demo;
 
 
 
+import java.util.LinkedList;
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,21 +25,78 @@ public class CalculatorController {
     @PostMapping("/calculate")
     public String calculator(String formula) {
         String[] formulaArr = formula.split(",");   // ','로 구분한 계산식을 배열로 담기
-        float temp = 0;                             // 순서대로 연산을 하기 위해 임시로 담는 값
+//         float temp = 0;                             // 순서대로 연산을 하기 위해 임시로 담는 값
+        List<String> numberList = new LinkedList<>();
+        List<String> operatorList = new LinkedList<>();
 
         checkSecondIndexIsBlank(formulaArr);
         checkSecondIndexIsOperator(formulaArr);
 
+        // formulaArr의 인덱스가 짝수일 때 숫자, 홀수일 때 부호을 구분하고
+        // 각각의 리스트를 생성
         for (int i = 0; i < formulaArr.length; i++) {
-            if (i % 2 == 0) {                               // 인덱스 값이 짝수일 때 숫자, 홀수일 때 부호
-                if (i == 0) {
-                    temp = Float.parseFloat(formulaArr[i]);
-                } else {
-                    temp = compute(temp, Float.parseFloat(formulaArr[i]), formulaArr[i - 1]);  // (첫번째 연산값, 두번째 값, 부호)
-                }
+            if (i % 2 == 0) {
+                numberList.add(formulaArr[i]);
+            } else {
+                operatorList.add(formulaArr[i]);
+                // for(int j = 0; j < operatorList.size(); j++) {
+                //     if (operatorList.get(j).equals(null)) {
+                //         operatorList.remove(j);
+                //     }
+                // }
             }
         }
-        return String.valueOf(temp);
+
+        System.out.println();
+        Iterator<String> iterator = numberList.iterator();
+        System.out.println("numberList");
+        while (iterator.hasNext()) {
+            System.out.print(iterator.next()+ " ");
+        }
+        System.out.println();
+        Iterator<String> iterator2 = operatorList.iterator();
+        System.out.println("operatorList");
+        while (iterator2.hasNext()) {
+            System.out.print(iterator2.next()+ " ");
+        }
+
+
+        float result = 0;
+        for (int i = 0; i < operatorList.size(); i++) {
+            if (operatorList.get(i).equals("x")) {
+                result = Float.parseFloat(numberList.get(i)) * Float.parseFloat(numberList.get(i + 1));
+                numberList.add(i, String.valueOf(result));
+                numberList.remove(i + 1);
+                operatorList.remove(i);
+            } else if (operatorList.get(i).equals("÷")) {
+                result = Float.parseFloat(numberList.get(i)) / Float.parseFloat(numberList.get(i + 1));
+                numberList.add(i, String.valueOf(result));
+                numberList.remove(i + 1);
+                operatorList.remove(i);
+            } else if (operatorList.get(i).equals("+")) {
+                result = Float.parseFloat(numberList.get(i)) + Float.parseFloat(numberList.get(i + 1));
+                numberList.add(i, String.valueOf(result));
+                numberList.remove(i + 1);
+                operatorList.remove(i);
+            } else if (operatorList.get(i).equals("-")) {
+                result = Float.parseFloat(numberList.get(i)) - Float.parseFloat(numberList.get(i + 1));
+                numberList.add(i, String.valueOf(result));
+                numberList.remove(i + 1);
+                operatorList.remove(i);
+            }
+        }
+        return numberList.get(0);
+
+        // for (int i = 0; i < formulaArr.length; i++) {
+        //     if (i % 2 == 0) {                               // 인덱스 값이 짝수일 때 숫자, 홀수일 때 부호
+        //         if (i == 0) {
+        //             temp = Float.parseFloat(formulaArr[i]);
+        //         } else {
+        //             temp = compute(temp, Float.parseFloat(formulaArr[i]), formulaArr[i - 1]);  // (첫번째 연산값, 두번째 값, 부호)
+        //         }
+        //     }
+        // }
+        // return String.valueOf(temp);
     }
 
     // 계산하기
@@ -95,8 +155,8 @@ public class CalculatorController {
             for (int i = 1; i < formulaArr.length - 1; i++) {
                 formulaArr[i] = formulaArr[i + 1];
             }
-            formulaArr[formulaArr.length - 1] = null;   // 맨 마지막 인덱스 값 null
-            return formulaArr;
+            //formulaArr[formulaArr.length - 1] = null;   // 맨 마지막 인덱스 값 null
+            return Arrays.copyOf(formulaArr, formulaArr.length - 1);
         } else {
             return formulaArr;
         }
@@ -110,8 +170,8 @@ public class CalculatorController {
             for(int i = 0; i < formulaArr.length - 1; i++) {
                 formulaArr[i] = formulaArr[i + 1];
             }
-            formulaArr[formulaArr.length - 1] = null;
-            return formulaArr;
+            //formulaArr[formulaArr.length - 1] = null;
+            return Arrays.copyOf(formulaArr, formulaArr.length - 1);
         }
         return formulaArr;
 
