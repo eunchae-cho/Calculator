@@ -35,41 +35,24 @@ public class CalculatorController {
         }
 
         formulaArr = checkSecondIndexIsBlank(formulaArr);
-        System.out.println("formulaArr after checkSecondIndexIsBlank: " + Arrays.toString(formulaArr));
         formulaArr = checkSecondIndexIsOperator(formulaArr);
-        System.out.println("formulaArr after checkSecondIndexIsOperator: " + Arrays.toString(formulaArr));
-
-        
 
         // 확인용
         System.out.print("formulaList: ");
         printList(formulaList);
         
-        // formulaList을 바탕으로 연산된 값을 계속해서 저장할 tempList 생성
-        List<String> tempList = new LinkedList<>();
-        tempList = formulaList;
         int size = formulaList.size();
         float result = 0;
-        
-        // tempList에 연산값으로 하나만 저장될 때까지
-        while(tempList.size() != 1) {
+    
+        // formulaList에 연산값으로 하나만 저장될 때까지
+        while(formulaList.size() != 1) {
 
             // 곱하기
             for (int i = 0; i < size; i++) {
                 if (formulaList.get(i).equals("x")) {
                     result = Float.parseFloat(formulaList.get(i - 1)) * Float.parseFloat(formulaList.get(i + 1));   // ..[숫자1][x][숫자2].. 양쪽의 숫자 연산
-                    tempList.set(i, String.valueOf(result));
-                    System.out.println("(x)tempList.set 이후");
-                    printList(tempList);
-                    tempList.remove(i - 1);     // ..[숫자1][결과값][숫자2].. 에서 [숫자1]을 지움
-                    System.out.println("(x)tempList.remove(i-1) 이후");
-                    printList(tempList);
-                    tempList.remove(i);         // .. [결과값][숫자2].. 에서 [숫자2]를 지움
-                    System.out.println("(x)tempList.remove(i) 이후");
-                    printList(tempList);
-
-                    size = tempList.size();     // 연산된 리스트의 길이 대입 
-
+                    calculateBothOfIndex(formulaList, result, i);
+                    size = formulaList.size();
                 } else {
                     continue;
                 }
@@ -79,18 +62,8 @@ public class CalculatorController {
             for (int i = 0; i < size; i++) {
                 if (formulaList.get(i).equals("÷")) {
                     result = Float.parseFloat(formulaList.get(i - 1)) / Float.parseFloat(formulaList.get(i + 1)); 
-                    tempList.set(i, String.valueOf(result));
-                    System.out.println("(÷)tempList.set 이후");
-                    printList(tempList);
-                    tempList.remove(i - 1);
-                    System.out.println("(÷)tempList.remove(i-1) 이후");
-                    printList(tempList);
-                    tempList.remove(i);
-                    System.out.println("(÷)tempList.remove(i) 이후");
-                    printList(tempList);
-
-                    size = tempList.size();
-
+                    calculateBothOfIndex(formulaList, result,i);
+                    size = formulaList.size();
                 } else {
                     continue;
                 }
@@ -100,18 +73,8 @@ public class CalculatorController {
             for (int i = 0; i < size; i++) {
                 if (formulaList.get(i).equals("+")) {
                     result = Float.parseFloat(formulaList.get(i - 1)) + Float.parseFloat(formulaList.get(i + 1)); 
-                    tempList.set(i, String.valueOf(result));
-                    System.out.println("(+)tempList.set 이후");
-                    printList(tempList);
-                    tempList.remove(i - 1);
-                    System.out.println("(+)tempList.remove(i-1) 이후");
-                    printList(tempList);
-                    tempList.remove(i);
-                    System.out.println("(+)tempList.remove(i) 이후");
-                    printList(tempList);
-
-                    size = tempList.size();
-
+                    calculateBothOfIndex(formulaList, result, i);
+                    size = formulaList.size();
                 } else {
                     continue;
                 }
@@ -121,26 +84,28 @@ public class CalculatorController {
             for (int i = 0; i < size; i++) {
                 if (formulaList.get(i).equals("-")) {
                     result = Float.parseFloat(formulaList.get(i - 1)) - Float.parseFloat(formulaList.get(i + 1)); 
-                    tempList.set(i, String.valueOf(result));
-                    System.out.println("(-)tempList.set 이후");
-                    printList(tempList);
-                    tempList.remove(i - 1);
-                    System.out.println("(-)tempList.remove(i-1) 이후");
-                    printList(tempList);
-                    tempList.remove(i);
-                    System.out.println("(-)tempList.remove(i) 이후");
-                    printList(tempList);
-
-                    size = tempList.size();
-
+                    calculateBothOfIndex(formulaList, result, i);
+                    size = formulaList.size();
                 } else {
                     continue;
                 }
             }
         }
-        return tempList.get(0);
+        return formulaList.get(0);
     }
 
+
+    // 부호에 따라 연산되는 인덱스와 부호를 정리
+    // 1. 부호에 따라 연산                  ...[숫자][부호][숫자]...
+    // 2. 가운데 부호를 연산 결과 값으로 바꿈   ...[숫자][연산결과][숫자]...
+    // 3. 앞의 숫자 삭제                   ...[연산결과][숫자]...
+    // 4. 뒤의 숫자 삭제                   ...[연산결과]...
+    private List<String> calculateBothOfIndex(List<String> list, float result, int i) {
+        list.set(i, String.valueOf(result));
+        list.remove(i - 1);
+        list.remove(i);
+        return list;
+    }
 
     // 확인용 LinkedList 값 출력
     public void printList(List<String> list) {
