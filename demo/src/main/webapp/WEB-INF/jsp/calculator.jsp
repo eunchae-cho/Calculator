@@ -15,12 +15,11 @@
             <h2>계산기</h2>
                 <input type="text" id="show" value="0" readonly></input>
                 <input type="hidden" id="send" value=""/>
-                <input type="hidden" id="flag" value="0"/>
                 <br>
                 <div class="btn-box">
                     <input type="button" id="clear" value="ac"></input>
-                    <input type="button" class="btnOperator" value="+/-"></input>
-                    <input type="button" class="btnOperator" value="%"></input>
+                    <input type="button" id="bracket1" value="("></input>
+                    <input type="button" id="bracket2" value=")"></input>
                     <input type="button" class="btnOperator" value="÷"></input>
                     <br>
                     <p></p>
@@ -119,10 +118,8 @@
 
                  // 숫자 버튼 클릭 시 
                  $('.btn').on('click', function () {
-                    if (flag == 0) {
-                        showInit();
-                        flag = 1;
-                    }
+                    showInit();
+                    flag = 1;
                     // 취소 버튼 'ac'를 'c'로 바꾸기
                     $('#clear').val('c');
                     // 값 보여주기
@@ -138,10 +135,8 @@
 
                  // 부호 버튼 클릭 시
                  $('.btnOperator').on('click', function () {
-                    if (flag == 0) {
-                        showInit();
-                        flag = 1;
-                    }
+                    showInit();
+                    flag = 1;
                     // 취소 버튼 'ac'를 'c'로 바꾸기
                     $('#clear').val('c');
                     // 부호 보여주기
@@ -185,17 +180,52 @@
                         $('#show').val(show);
                         if (show == '') {
                             $('#clear').val('ac');  // 더 이상 지울게 없을 때 다시 'ac'로 초기화
-                            $('#show').val('');     // 보여주는 곳도 초기화
+                            $('#show').val('0');     // '0'보이게 초기화
                             $('#send').val('');     // 값 넘겨주는 곳도 초기화
+                            flag = 0; 
                         }
                         send = send.substring(0, send.length - 3);
                         $('#send').val(send);
                     } else {
                         console.log("ac-clear");
-                        $('#show').val('');
+                        $('#show').val('0');    // '0' 보이게 초기화
                         $('#send').val('');
                     }
                  })
+
+
+
+                // '(' 버튼 클릭 시
+                $('#bracket1').on('click', function () {
+                    showInit();
+                    flag = 1;
+                    // 취소 버튼 'ac'를 'c'로 바꾸기
+                    $('#clear').val('c');
+                    // 값 보여주기
+                    var showBracket = $('#show').val();
+                    $('#show').val(showBracket + $(this).val());
+
+                    // 값 보내기
+                    var sendBracket = $('#send').val();
+                    $('#send').val(sendBracket + $(this).val());
+                });
+
+
+
+                // ')' 버튼 클릭 시
+                $('#bracket2').on('click', function () {
+                    showInit();
+                    flag = 1;
+                    // 취소 버튼 'ac'를 'c'로 바꾸기
+                    $('#clear').val('c');
+                     // 값 보여주기
+                     var showBracket = $('#show').val();
+                    $('#show').val(showBracket + $(this).val());
+
+                    // 값 보내기
+                    var sendBracket = $('#send').val();
+                    $('#send').val(sendBracket + $(this).val());
+                });
                  
 
 
@@ -204,11 +234,6 @@
                      if (flag == 0) {
                         $('#show').val('');
                      }
-                    // if ($('#flag').val() == '1') {
-                    //     $('#show').val('');
-                    //     $('#send').val('');                                
-                    //     $('#flag').val('0');
-                    //}
                  }
              } )
          </script>
