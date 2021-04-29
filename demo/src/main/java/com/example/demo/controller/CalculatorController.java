@@ -56,7 +56,7 @@ public class CalculatorController {
         arthmetic.calculate(formulaList, formulaList.size());
         resultString = formulaList.get(0);
 
-        return convertResultType(Float.parseFloat(resultString), (int) Float.parseFloat(resultString));
+        return check.convertResultType(Float.parseFloat(resultString), (int) Float.parseFloat(resultString));
     }
     
   
@@ -67,15 +67,6 @@ public class CalculatorController {
             System.out.print(iterator.next()+ " ");
         }
         System.out.println();
-    }
-
-    // 결과 값이 쓸데 없이 소수점으로 나오지 않도록 
-    // 결과가 만약에 정수로 나왔다면 정수로, 실수로 나왔다면 실수로
-    public String convertResultType(float floatFomularResult, int integerFormulaResult) {
-        if (floatFomularResult - integerFormulaResult == 0) {
-            return Integer.toString(integerFormulaResult);
-        }
-        return Float.toString(floatFomularResult);
     }
 }
 

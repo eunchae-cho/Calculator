@@ -21,4 +21,13 @@ public class Check {
             return false;
         }
     }
+
+    // 결과 값이 쓸데 없이 소수점으로 나오지 않도록 
+    // 결과가 만약에 정수로 나왔다면 정수로, 실수로 나왔다면 실수로
+    public String convertResultType(float floatFomularResult, int integerFormulaResult) {
+        if (floatFomularResult - integerFormulaResult == 0) {
+            return Integer.toString(integerFormulaResult);
+        }
+        return Float.toString(floatFomularResult);
+    }
 }
