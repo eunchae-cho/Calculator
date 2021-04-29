@@ -3,11 +3,12 @@ package com.example.demo.function;
 import java.util.Iterator;
 import java.util.List;
 
+// 사칙연산
 public class Arthmetic {
 
-    public String calculate(List<String> list, int size) {
+    public List<String> calculate(List<String> list, int size) {
         float resultFloat = 0;
-        
+
         while(size != 1) {
 
             // '(', ')' 삭제
@@ -64,7 +65,7 @@ public class Arthmetic {
                 }
             }
         }
-        return list.get(0);
+        return list;
     }
 
     // 부호에 따라 연산되는 인덱스와 부호를 정리

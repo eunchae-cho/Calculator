@@ -38,14 +38,14 @@
     background-color: rgb(245, 191, 129);
 }
 
-#bracket1 {
+#bracketOpen {
     width: 50px;
     padding: 3px;
     font-size: medium;
     background-color: rgb(245, 191, 129);
 }
 
-#bracket2 {
+#bracketClose {
     width: 50px;
     padding: 3px;
     font-size: medium;

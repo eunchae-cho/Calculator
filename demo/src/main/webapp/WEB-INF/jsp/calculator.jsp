@@ -18,8 +18,8 @@
                 <br>
                 <div class="btn-box">
                     <input type="button" id="clear" value="ac"></input>
-                    <input type="button" id="bracket1" value="("></input>
-                    <input type="button" id="bracket2" value=")"></input>
+                    <input type="button" id="bracketOpen" value="("></input>
+                    <input type="button" id="bracketClose" value=")"></input>
                     <input type="button" class="btnOperator" value="÷"></input>
                     <br>
                     <p></p>
@@ -78,6 +78,7 @@
          <script>
             // flag가 '0'일 때는 최초의 상태 
              var flag = 0;
+             var flagSend = 0;
 
              $(function () {
                  // '=' 버튼 클릭시 
@@ -105,6 +106,7 @@
                             $('#send').val(formula + ",");    // 계산한 결과값으로 초기화
                             $('#clear').val('ac');      // 취소 버튼 'ac'로 초기화
                             flag = 0;
+                            flagSend = 0;
                         },
                         error: function() {
                             $('#show').val('잘못된 값');
@@ -120,6 +122,8 @@
                  $('.btn').on('click', function () {
                     showInit();
                     flag = 1;
+                    sendInit();
+                    flagSend = 1;
                     // 취소 버튼 'ac'를 'c'로 바꾸기
                     $('#clear').val('c');
                     // 값 보여주기
@@ -182,7 +186,8 @@
                             $('#clear').val('ac');  // 더 이상 지울게 없을 때 다시 'ac'로 초기화
                             $('#show').val('0');     // '0'보이게 초기화
                             $('#send').val('');     // 값 넘겨주는 곳도 초기화
-                            flag = 0; 
+                            flag = 0;
+                            flagSend = 0;
                         }
                         send = send.substring(0, send.length - 3);
                         $('#send').val(send);
@@ -196,9 +201,10 @@
 
 
                 // '(' 버튼 클릭 시
-                $('#bracket1').on('click', function () {
+                $('#bracketOpen').on('click', function () {
                     showInit();
                     flag = 1;
+                    flagSend = 1;
                     // 취소 버튼 'ac'를 'c'로 바꾸기
                     $('#clear').val('c');
                     // 값 보여주기
@@ -207,13 +213,15 @@
 
                     // 값 보내기
                     var sendBracket = $('#send').val();
-                    $('#send').val(sendBracket + $(this).val());
+                    console.log("sendBracket this: " + $(this).val());
+                    $('#send').val(sendBracket + $(this).val() + ",");
+                    console.log("sendBracket send.val: " + $('#send').val());
                 });
 
 
 
                 // ')' 버튼 클릭 시
-                $('#bracket2').on('click', function () {
+                $('#bracketClose').on('click', function () {
                     showInit();
                     flag = 1;
                     // 취소 버튼 'ac'를 'c'로 바꾸기
@@ -224,7 +232,7 @@
 
                     // 값 보내기
                     var sendBracket = $('#send').val();
-                    $('#send').val(sendBracket + $(this).val());
+                    $('#send').val(sendBracket + "," + $(this).val());
                 });
                  
 
@@ -233,6 +241,12 @@
                  function showInit() {
                      if (flag == 0) {
                         $('#show').val('');
+                     }
+                 }
+                 //  보내는 부분 send 초기화
+                 function sendInit() {
+                     if (flagSend == 0) {
+                        $('#send').val('');
                      }
                  }
              } )
