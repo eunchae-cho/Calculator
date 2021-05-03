@@ -53,10 +53,12 @@ public class CalculatorController {
         if (check.checkBracket(formulaList)) {
             // 괄호식 계산 
             formulaList = bracket.calculate(formulaList);
-            // 만약 괄호식이 잘못되었다면 에러메세지 담기
-            formulaList = error.wrongBracket(formulaList);
-            resultString = formulaList.get(0);
-            return resultString;
+            // 만약 괄호식이 잘못되었다면 에러메세지 리턴
+            if ("?1".equals(formulaList.get(0))) {
+                formulaList = error.wrongBracket(formulaList);
+                resultString = formulaList.get(0);
+                return resultString;
+            }
         }
 
         // 괄호식이 없다면 일반식 계산

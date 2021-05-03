@@ -22,6 +22,8 @@ public class Check {
         }
     }
 
+    // 잘못된 괄호식이 있는지 검사
+    // 예) ((2 + 2)
     public boolean checkWrongBracket(List<String> list) {
         int size = list.size();
         int count = 0;
@@ -30,8 +32,7 @@ public class Check {
                 count++;
             } 
         }
-        System.out.println("checkWrongBracket() count: " + count);
-        if (count % 2 != 0) {
+        if (count % 2 != 0) {       // 괄호 '(' 혹은 ')'의 갯수가 홀수일 때
             return true;
         } else {
             return false;

@@ -11,11 +11,10 @@ public class Error {
 
     List<String> errorList = new LinkedList<>();
 
-    // '?1' 
+    // '?1' 문자열이 있을 때 리턴
     public List<String> wrongBracket(List<String> list) {
         if (list.get(0).equals("?1")) {
             errorList.add(0, "잘못된 괄호");
-            System.out.println("error 들림");
             return errorList;
         }
         return list;

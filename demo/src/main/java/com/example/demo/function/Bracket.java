@@ -18,6 +18,18 @@ public class Bracket {
         String resultString;
         
         for(int i = 0; i < size; i++) {
+
+            // 입력값이 '숫자('일 때 '숫자 x ('로 변환
+            // 예) 2(1+3) -> 2x(1+3)
+            if (list.get(i).contains("(") && !list.get(i).equals("(")) {
+                char[] charArray = list.get(i).toCharArray();
+                list.remove(i);
+                list.add(i, String.valueOf(charArray[0]));
+                list.add(i + 1, "x");
+                list.add(i + 2, String.valueOf(charArray[1]));
+                size = list.size();
+            }
+
             // 나중의 '('index 수색
             if (list.get(i).equals("(")) {
                 openIndex = i;
@@ -44,7 +56,6 @@ public class Bracket {
                     list.remove(openIndex + 1);                 // 지워야할 연속된 자리
                     System.out.print("remove list: ");
                     printList(list);
-                    System.out.println("count " + count);
                     count++;
                 }
                 break;
@@ -58,16 +69,13 @@ public class Bracket {
         if (check.checkWrongBracket(list)) {
             List<String> errorList = new LinkedList<>();
             errorList.add("?1");
-            System.out.println("a");
             return errorList;       // 잘못된 괄호식이 있다면 '?1' 보냄
         } else {
             // 계산식에 괄호가 또 있는지 확인
             if (check.checkBracket(list)) {
-                System.out.println("b");
                 calculate(list);
             }
         }
-        System.out.println("c");
         return list;
     }
 
