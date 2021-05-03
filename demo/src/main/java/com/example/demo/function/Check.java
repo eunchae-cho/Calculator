@@ -11,11 +11,27 @@ public class Check {
         int size = list.size();
         int count = 0;
         for (int i = 0; i < size; i++) {
-            if (list.get(i).equals("(")) {
+            if (list.get(i).equals("(") || list.get(i).equals(")")) {
                 count++;
             } 
         }
         if (count > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean checkWrongBracket(List<String> list) {
+        int size = list.size();
+        int count = 0;
+        for (int i = 0; i < size; i++) {
+            if (list.get(i).equals("(") || list.get(i).equals(")")) {
+                count++;
+            } 
+        }
+        System.out.println("checkWrongBracket() count: " + count);
+        if (count % 2 != 0) {
             return true;
         } else {
             return false;

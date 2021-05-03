@@ -9,6 +9,7 @@ import java.util.List;
 import com.example.demo.function.Arthmetic;
 import com.example.demo.function.Bracket;
 import com.example.demo.function.Check;
+import com.example.demo.function.Error;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,6 +24,7 @@ public class CalculatorController {
     @Autowired Arthmetic arthmetic;
     @Autowired Bracket bracket;
     @Autowired Check check;
+    @Autowired Error error;
     
     @GetMapping("/")
     public String home() {
@@ -49,11 +51,16 @@ public class CalculatorController {
 
         // 괄호식이 있는지 없는지 확인
         if (check.checkBracket(formulaList)) {
-            bracket.calculate(formulaList);
+            // 괄호식 계산 
+            formulaList = bracket.calculate(formulaList);
+            // 만약 괄호식이 잘못되었다면 에러메세지 담기
+            formulaList = error.wrongBracket(formulaList);
+            resultString = formulaList.get(0);
+            return resultString;
         }
 
         // 괄호식이 없다면 일반식 계산
-        arthmetic.calculate(formulaList, formulaList.size());
+        arthmetic.calculate(formulaList);
         resultString = formulaList.get(0);
 
         return check.convertResultType(Float.parseFloat(resultString), (int) Float.parseFloat(resultString));

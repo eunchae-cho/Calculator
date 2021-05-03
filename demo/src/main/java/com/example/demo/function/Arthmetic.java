@@ -6,20 +6,26 @@ import java.util.List;
 // 사칙연산
 public class Arthmetic {
 
-    public List<String> calculate(List<String> list, int size) {
+    public List<String> calculate(List<String> list) {
         float resultFloat = 0;
+        int size = list.size();
+        //int count = 0;
 
         while(size != 1) {
 
             // '(', ')' 삭제
-            for (int i = 0; i < size; i++) {
-                if (list.get(i).equals("(") || list.get(i).equals(")")) {
-                    list.remove(i);
-                    size = list.size();
-                } else {
-                    continue;
-                }
-            }
+            // System.out.print("list :");
+            // printList(list);
+            // for (int i = 0; i < size; i++) {
+            //     System.out.println("a");
+            //     if (list.get(i).equals("(") || list.get(i).equals(")")) {
+            //         System.out.println("b");
+            //         list.remove(i);
+            //         size = list.size();
+            //         } else {
+            //         continue;
+            //     }
+            // }
             
             // 곱하기
             for (int i = 0; i < size; i++) {
