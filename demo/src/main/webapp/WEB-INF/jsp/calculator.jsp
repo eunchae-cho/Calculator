@@ -13,43 +13,49 @@
     <body>
         <div class="calc">
             <h2>계산기</h2>
+            <div class="show-container">
                 <input type="text" id="show" value="0" readonly></input>
                 <input type="hidden" id="send" value=""/>
-                <br>
-                <div class="btn-box">
-                    <input type="button" id="clear" value="ac"></input>
-                    <input type="button" id="bracketOpen" value="("></input>
-                    <input type="button" id="bracketClose" value=")"></input>
-                    <input type="button" class="btnOperator" value="÷"></input>
-                    <br>
-                    <p></p>
-                    <input type="button" class="btn" value="7"></input>
-                    <input type="button" class="btn" value="8"></input>
-                    <input type="button" class="btn" value="9"></input>
-                    <input type="button" class="btnOperator" value="x"></input>
-                    <br>
-                    <p></p>
-                    <input type="button" class="btn" value="4"></input>
-                    <input type="button" class="btn" value="5"></input>
-                    <input type="button" class="btn" value="6"></input>
-                    <input type="button" class="btnOperator" value="-"></input>
-                    <br>
-                    <p></p>
-                    <input type="button" id="btnOne" class="btn" value="1"></input>
-                    <input type="button" class="btn" value="2"></input>
-                    <input type="button" class="btn" value="3"></input>
-                    <input type="button" class="btnOperator" value="+"></input>
-                    <br>
-                    <p></p>
+            </div>
+
+        <div class="btn-container">
+            <div class="container">
+                <input type="button" class="item" id="root" value="√"></input>
+                <input type="button" class="item" id="clear" value="ac"></input>
+                <input type="button" class="item" id="bracketOpen" value="("></input>
+                <input type="button" class="item" id="bracketClose" value=")"></input>
+                <input type="button" class="item btnOperator" value="÷"></input>
+
+                <input type="button" class="item btnOperator" id="power" value="²"></input>
+                <input type="button" class="item btn" value="7"></input>
+                <input type="button" class="item btn" value="8"></input>
+                <input type="button" class="item btn" value="9"></input>
+                <input type="button" class="item btnOperator" value="x"></input>
+                
+                <input type="button" class="item btnOperator" value=""></input>
+                <input type="button" class="item btn" value="4"></input>
+                <input type="button" class="item btn" value="5"></input>
+                <input type="button" class="item btn" value="6"></input>
+                <input type="button" class="item btnOperator" value="-"></input>
+                
+                <input type="button" class="btnOperator" value=""></input>
+                <input type="button" id="btnOne" class="btn" value="1"></input>
+                <input type="button" class="btn" value="2"></input>
+                <input type="button" class="btn" value="3"></input>
+                <input type="button" class="btnOperator" value="+"></input>
+                
+                <div class="zero-container">
                     <input type="button" id="btnZero" class="btn" value="0"></input>
                     <input type="button" class="btnOperator" value="."></input>
                     <input type="button" id="btnEqual" value="="></input>
                 </div>
-         </div>
+            </div>
+        </div>
+        </div>
          
-         <script src="../../js/stack.js"></script>
-         <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
-         <script>
+        <script src="../../js/stack.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+        <script>
             //  window.onload = function () {
             //     // 버튼 클릭 시 숫자 누적
             //     let show = document.getElementById("show");
@@ -210,12 +216,9 @@
                     // 값 보여주기
                     var showBracket = $('#show').val();
                     $('#show').val(showBracket + $(this).val());
-
                     // 값 보내기
                     var sendBracket = $('#send').val();
-                    console.log("sendBracket this: " + $(this).val());
                     $('#send').val(sendBracket + $(this).val() + ",");
-                    console.log("sendBracket send.val: " + $('#send').val());
                 });
 
 
@@ -229,10 +232,23 @@
                      // 값 보여주기
                      var showBracket = $('#show').val();
                     $('#show').val(showBracket + $(this).val());
-
                     // 값 보내기
                     var sendBracket = $('#send').val();
                     $('#send').val(sendBracket + "," + $(this).val());
+                });
+
+                $('#root').on('click', function () {
+                    showInit();
+                    flag = 1;
+                    flagSend = 1;
+                    // 취소 버튼 'ac'를 'c'로 바꾸기
+                    $('#clear').val('c');
+                    // 값 보여주기
+                    var showRoot = $('#show').val();
+                    $('#show').val(showRoot + $(this).val());
+                    // 값 보내기
+                    var sendRoot = $('#send').val();
+                    $('#send').val(sendRoot + $(this).val() + ",");
                 });
                  
 

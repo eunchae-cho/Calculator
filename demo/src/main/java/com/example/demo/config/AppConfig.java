@@ -4,6 +4,7 @@ import com.example.demo.function.Arthmetic;
 import com.example.demo.function.Bracket;
 import com.example.demo.function.Check;
 import com.example.demo.function.Error;
+import com.example.demo.function.Root;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,5 +30,10 @@ public class AppConfig {
     @Bean
     public Error error() {
         return new Error();
+    }
+
+    @Bean
+    public Root root() {
+        return new Root();
     }
 }

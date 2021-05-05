@@ -10,6 +10,7 @@ public class Bracket {
     
     @Autowired Arthmetic arthmetic;
     @Autowired Check check;
+    @Autowired Root root;
 
     public List<String> calculate(List<String> list) {
         int openIndex = 0;
@@ -46,6 +47,11 @@ public class Bracket {
                 }
                 System.out.print("bracketList: ");
                 printList(bracketList);
+
+                // 루트 혹은 루트식이 있는지 확인
+                if (check.checkRoot(bracketList)) {
+                    bracketList = root.calculate(bracketList);
+                }
                 arthmetic.calculate(bracketList);
                 resultString = bracketList.get(0);
 

@@ -1,8 +1,12 @@
 
+.calc {
+    width: 270px;
+}
 
 .calc h2 {
-    margin-left: 75px;
-    margin-bottom: unset;
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 0px;
 }
 
 #show {
@@ -13,18 +17,38 @@
     font-size: larger;
 }
 
-.btn-box {
-    margin-left: 3px;
+.show-container {
+    text-align: right;
 }
 
-.btn-box .btn {
+.btn-container {
+    height: 160px;
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    height: 160px;;
+    justify-content: space-around;
+    align-content: space-around;
+}
+
+.zero-container {
+    width: 100%;
+    text-align: right;
+}
+
+.item {
+}
+
+.btn {
     width: 50px;
     padding: 3px;
     font-size: medium;
 }
 
 
-.btn-box .btnOperator {
+.btnOperator {
     width: 50px;
     padding: 3px;
     font-size: medium;
@@ -46,6 +70,20 @@
 }
 
 #bracketClose {
+    width: 50px;
+    padding: 3px;
+    font-size: medium;
+    background-color: rgb(245, 191, 129);
+}
+
+#root {
+    width: 50px;
+    padding: 3px;
+    font-size: medium;
+    background-color: rgb(245, 191, 129);
+}
+
+#power {
     width: 50px;
     padding: 3px;
     font-size: medium;
