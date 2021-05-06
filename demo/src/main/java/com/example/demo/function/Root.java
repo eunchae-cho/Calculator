@@ -102,11 +102,6 @@ public class Root {
         return list;
     }
 
-    public List<String> bracketInRoot(List<String> list) {
-
-        return list;
-    }
-
      // 확인용 LinkedList 값 출력
      public void printList(List<String> list) {
         Iterator<String> iterator = list.iterator();
