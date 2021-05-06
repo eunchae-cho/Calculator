@@ -10,6 +10,7 @@ import com.example.demo.function.Arthmetic;
 import com.example.demo.function.Bracket;
 import com.example.demo.function.Check;
 import com.example.demo.function.Error;
+import com.example.demo.function.Power;
 import com.example.demo.function.Root;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,7 @@ public class CalculatorController {
     @Autowired Check check;
     @Autowired Error error;
     @Autowired Root root;
+    @Autowired Power power;
     
     @GetMapping("/")
     public String home() {
@@ -50,6 +52,16 @@ public class CalculatorController {
         // 확인용
         System.out.print("formulaList: ");
         printList(formulaList);
+
+        // 거듭제곱이 있다면 거듭제곱 계산
+        if (check.checkPower(formulaList)) {
+            formulaList = power.calculate(formulaList);
+            // 만약 거듭제곱식이 잘못되었다면 에러메세지 리턴
+            // if ("?2".equals(formulaList.get(0)));
+            //     formulaList = error.wrongPower(formulaList);
+            //     resultString = formulaList.get(0);
+            //     return resultString;
+        }
 
         // 괄호식이 있다면 괄호식 계산
         if (check.checkBracket(formulaList)) {

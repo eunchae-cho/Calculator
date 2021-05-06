@@ -5,11 +5,22 @@ import java.util.List;
 // 검사
 public class Check {
 
+    // 거듭제곱이 있는지 검사
+    public boolean checkPower(List<String> list) {
+        int size = list.size();
+        for(int i = 0; i < size; i++) {
+            if (list.get(i).contains("²")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     // 루트가 있는지 겁사
     public boolean checkRoot(List<String> list) {
         int size = list.size();
         for (int i = 0; i < size; i++) {
-            if(list.get(i).equals("√")) {
+            if (list.get(i).equals("√")) {
                 return true;
             }
         }

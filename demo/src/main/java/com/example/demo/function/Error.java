@@ -19,4 +19,12 @@ public class Error {
         }
         return list;
     }
+
+    public List<String> wrongPower(List<String> list) {
+        if (list.get(0).equals("?2")) {
+            errorList.add(0, "잘못된 제곱");
+            return errorList;
+        }
+        return list;
+    }
 }

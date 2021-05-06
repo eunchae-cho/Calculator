@@ -34,8 +34,8 @@ public class Root {
                     rootList.add(list.get(j));
                 }
                 // 기존 list에서 루트식 삭제
-                for(j = size; j <= rootIndex; j--) {
-                    list.remove(rootIndex);
+                for(j = size - 1; j >= rootIndex; j--) {
+                    list.remove(j);
                     size = list.size();
                 }
                 
@@ -46,10 +46,12 @@ public class Root {
 
                 // 기존 list에 계산된 루트식 추가
                 int rootSize = rootList.size();
-                for (j = rootIndex; j < rootSize; j++) {
-                    list.set(j, rootList.get(j));
+                for (j = 0; j < rootSize; j++) {
+                    list.add(size, rootList.get(j));
+                    size = list.size();
                 }
-
+            
+            // 하나의 루트일 때
             } else if (list.get(i).equals("√")) {
                 list.remove(i);     // 루트 기호 삭제
                 size = list.size();
@@ -79,7 +81,7 @@ public class Root {
                     }
                     // 루트 안 괄호식 계산
                     bracket.calculate(bracketList);
-                    resultString = String.valueOf(Math.sqrt(Double.parseDouble(bracketList.get(0))));
+                    resultString = String.valueOf(Math.sqrt(Double.parseDouble(bracketList.get(i))));
                     list.set(i, resultString);
                     System.out.print("root list (resultA): ");
                     printList(list);
@@ -93,11 +95,8 @@ public class Root {
             }
         }
         // 계산된 식에 루트가 또 있는지 검사
-        size = list.size();
-        for (int i = 0; i < size; i++) {
-            if (check.checkRoot(list)) {
-                calculate(list);
-            }
+        if (check.checkRoot(list)) {
+            calculate(list);
         }
         return list;
     }

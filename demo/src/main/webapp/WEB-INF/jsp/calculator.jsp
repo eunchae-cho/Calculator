@@ -26,7 +26,7 @@
                 <input type="button" class="item" id="bracketClose" value=")"></input>
                 <input type="button" class="item btnOperator" value="÷"></input>
 
-                <input type="button" class="item btnOperator" id="power" value="²"></input>
+                <input type="button" class="item" id="power" value="²"></input>
                 <input type="button" class="item btn" value="7"></input>
                 <input type="button" class="item btn" value="8"></input>
                 <input type="button" class="item btn" value="9"></input>
@@ -236,7 +236,6 @@
                     // 값 보내기
                     var sendBracket = $('#send').val();
                     $('#send').val(sendBracket + $(this).val() + ",");
-                    console("bracketOpen: " + sendBracket);
                 });
 
 
@@ -253,7 +252,6 @@
                     // 값 보내기
                     var sendBracket = $('#send').val();
                     $('#send').val(sendBracket + "," + $(this).val());
-                    console("bracketClose: " + sendBracket);
                 });
 
                 $('#root').on('click', function () {
@@ -269,6 +267,20 @@
                     // 값 보내기
                     var sendRoot = $('#send').val();
                     $('#send').val(sendRoot + $(this).val() + ",");
+                });
+
+                $('#power').on('click', function () {
+                    showInit();
+                    flag = 1;
+                    flagSend = 1;
+                    // 취소 버튼 'ac'를 'c'로 바꾸기
+                    $('#clear').val('c');
+                    // 값 보여주기
+                    var showPower = $('#show').val();
+                    $('#show').val(showPower + $(this).val());
+                    // 값 보내기
+                    var sendPower = $('#send').val();
+                    $('#send').val(sendPower + "," + $(this).val());
                 });
                  
 

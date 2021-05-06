@@ -11,6 +11,7 @@ public class Bracket {
     @Autowired Arthmetic arthmetic;
     @Autowired Check check;
     @Autowired Root root;
+    @Autowired Power power; 
 
     public List<String> calculate(List<String> list) {
         int openIndex = 0;
@@ -52,6 +53,10 @@ public class Bracket {
                 if (check.checkRoot(bracketList)) {
                     bracketList = root.calculate(bracketList);
                 }
+                // 거듭제곱식이 있는지 확인
+                if (check.checkPower(bracketList)) {
+                    bracketList = power.calculate(bracketList);
+                }
                 arthmetic.calculate(bracketList);
                 resultString = bracketList.get(0);
 
@@ -64,8 +69,7 @@ public class Bracket {
                     printList(list);
                     count++;
                 }
-                break;
-
+                break;  // 괄호식 하나가 계산되면 탈출
             } else {
                 continue;
             }
