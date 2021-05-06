@@ -139,6 +139,7 @@
                     // 값 보내기
                     var sendNumber = $('#send').val();
                     $('#send').val(sendNumber + $(this).val());
+                    console.log("숫자 버튼: " + sendNumber);
                  })
 
 
@@ -147,6 +148,7 @@
                  $('.btnOperator').on('click', function () {
                     showInit();
                     flag = 1;
+                    flagSend = 1;
                     // 취소 버튼 'ac'를 'c'로 바꾸기
                     $('#clear').val('c');
                     // 부호 보여주기
@@ -174,6 +176,7 @@
                     } else {
                     $('#send').val(sendOperator + "," + $(this).val() + ",");
                     }
+                    console.log("부호 버튼: " + sendOperator);
                 })
 
 
@@ -201,8 +204,21 @@
                         console.log("ac-clear");
                         $('#show').val('0');    // '0' 보이게 초기화
                         $('#send').val('');
+                        flag = 0;
+                        flagSend = 0;
                     }
-                 })
+                    console.log("취소된 send: " + send);
+                 });
+
+                 // 취소버튼 더블클릭 시 초기화
+                //  $('#clear').dblclick(function () {
+                //     console.log("ac-clear");
+                //     $('#clear').val('ac');
+                //     $('#show').val('0');
+                //     $('#send').val('');
+                //     flag = 0;
+                //     flagSend = 0;
+                //  });
 
 
 
@@ -210,6 +226,7 @@
                 $('#bracketOpen').on('click', function () {
                     showInit();
                     flag = 1;
+                    sendInit();
                     flagSend = 1;
                     // 취소 버튼 'ac'를 'c'로 바꾸기
                     $('#clear').val('c');
@@ -219,6 +236,7 @@
                     // 값 보내기
                     var sendBracket = $('#send').val();
                     $('#send').val(sendBracket + $(this).val() + ",");
+                    console("bracketOpen: " + sendBracket);
                 });
 
 
@@ -235,11 +253,13 @@
                     // 값 보내기
                     var sendBracket = $('#send').val();
                     $('#send').val(sendBracket + "," + $(this).val());
+                    console("bracketClose: " + sendBracket);
                 });
 
                 $('#root').on('click', function () {
                     showInit();
                     flag = 1;
+                    sendInit();
                     flagSend = 1;
                     // 취소 버튼 'ac'를 'c'로 바꾸기
                     $('#clear').val('c');

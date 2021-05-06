@@ -4,6 +4,7 @@ import com.example.demo.function.Arthmetic;
 import com.example.demo.function.Bracket;
 import com.example.demo.function.Check;
 import com.example.demo.function.Error;
+import com.example.demo.function.Power;
 import com.example.demo.function.Root;
 
 import org.springframework.context.annotation.Bean;
@@ -35,5 +36,10 @@ public class AppConfig {
     @Bean
     public Root root() {
         return new Root();
+    }
+
+    @Bean
+    public Power power() {
+        return new Power();
     }
 }
