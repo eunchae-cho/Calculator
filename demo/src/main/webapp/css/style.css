@@ -1,4 +1,5 @@
 
+
 .calc {
     width: 270px;
 }
@@ -9,16 +10,25 @@
     margin-bottom: 0px;
 }
 
-#show {
-    padding-block: 5px;
+#input {
+    padding-block: 10px;
     padding-right: 8px;
     text-align: right;
-    margin-block: 20px;
-    font-size: larger;
+    font-size: 24px;
+}
+
+#show {
+    font-size: 20px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    padding: 8px;
+    margin-inline: 5px;
+    color: darkgrey;
+    resize: none;
 }
 
 .show-container {
-    text-align: right;
+    display: inline-block;
 }
 
 .btn-container {

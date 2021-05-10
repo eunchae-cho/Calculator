@@ -14,7 +14,8 @@
         <div class="calc">
             <h2>계산기</h2>
             <div class="show-container">
-                <input type="text" id="show" value="0" readonly></input>
+                <textarea id="show" cols="19" rows="2" readonly></textarea>
+                <div id="input">0</div>
                 <input type="hidden" id="send" value=""/>
             </div>
 
@@ -58,7 +59,7 @@
         <script>
             //  window.onload = function () {
             //     // 버튼 클릭 시 숫자 누적
-            //     let show = document.getElementById("show");
+            //     let input = document.getElementById("input");
             //     let btnNumber = document.getElementsByClassName("btn");
             //     let btnOperator = document.getElementsByClassName("btnOperator");
             //     let stack = new Stack();
@@ -69,7 +70,7 @@
             //             console.log(btnNumber[i]);
             //             stack.push(btnNumber[i].value);
             //             console.log("스택: " + stack.print());
-            //             show.innerText += btnNumber[i].value;
+            //             input.innerText += btnNumber[i].value;
             //         })
             //         for (let j = 0; j < stack.size(); j++) {
             //             console.log("stack.peek("+j+")");
@@ -82,21 +83,18 @@
              
          </script>
          <script>
-            // flag가 '0'일 때는 최초의 상태 
-             var flag = 0;
-             var flagSend = 0;
+            // inputFlag가 '0'일 때는 최초의 상태 
+             var inputFlag = 0;
+             var showFlag = 0;
+             var sendFlag = 0;
+             var result= '';
 
              $(function () {
                  // '=' 버튼 클릭시 
                  $('#btnEqual').on('click', function () {
-                     var showResult = $('#show').val();
-                     console.log("show: " + showResult);
+                     var show = $('#show').text();
+                     console.log("show: " + show);
                      console.log("send: " + $('#send').val());
-
-                    //  if (showResult == ',=,') {
-                    //     $('#show').val('');
-                    //     $('#send').val(''); 
-                    //  }
 
                      // ajax로 버튼으로 클릭된 값 보내기
                      $.ajax ({
@@ -108,16 +106,22 @@
                         dataType: 'text',
                         success: function (formula) {
                             console.log("formula: " + formula);
-                            $('#show').val(formula);    // 계산한 결과 보여주기
+                            $('#input').text(formula);    // 계산한 결과 보여주기
+                            $('#show').text(show + "=" + formula);
                             $('#send').val(formula + ",");    // 계산한 결과값으로 초기화
                             $('#clear').val('ac');      // 취소 버튼 'ac'로 초기화
-                            flag = 0;
-                            flagSend = 0;
+                            result = formula;
+                            inputFlag = 0;
+                            showFlag = 0;
+                            sendFlag = 0;
                         },
                         error: function() {
-                            $('#show').val('잘못된 값');
+                            $('#input').text('0');
+                            $('#show').text('잘못된 값');
                             $('#clear').val('ac');
-                            flag = 0;
+                            inputFlag = 0;
+                            showFlag = 0;
+                            sendFlag = 0;
                         }
                      });
                  });
@@ -126,42 +130,57 @@
 
                  // 숫자 버튼 클릭 시 
                  $('.btn').on('click', function () {
+                    inputInit();
+                    inputFlag = 1;
                     showInit();
-                    flag = 1;
+                    showFlag = 1;
                     sendInit();
-                    flagSend = 1;
+                    sendFlag = 1;
+
                     // 취소 버튼 'ac'를 'c'로 바꾸기
                     $('#clear').val('c');
-                    // 값 보여주기
-                    var showNumber = $('#show').val();
-                    $('#show').val(showNumber + $(this).val());
-
+                    
+                    // input 값 보여주기
+                    $('#input').text($(this).val());
+                    // show 값 보여주기
+                    var showNumber = $('#show').text();
+                    $('#show').text(showNumber + $(this).val());
                     // 값 보내기
                     var sendNumber = $('#send').val();
                     $('#send').val(sendNumber + $(this).val());
-                    console.log("숫자 버튼: " + sendNumber);
                  })
 
 
 
                  // 부호 버튼 클릭 시
                  $('.btnOperator').on('click', function () {
-                    showInit();
-                    flag = 1;
-                    flagSend = 1;
+                    inputInit();
+                    inputFlag = 1;
+                    sendInit();
+                    sendFlag = 1;
+                    if (showFlag == 0) {
+                        showInit();
+                        $('#show').text(result);
+                        $('#send').val(result);
+                        showFlag = 1;
+                    }
                     // 취소 버튼 'ac'를 'c'로 바꾸기
                     $('#clear').val('c');
-                    // 부호 보여주기
-                    var showOperator = $('#show').val();
+                    
+                    // input 부호 보여주기
+                    $('#input').text($(this).val());   
+
+                    // show 부호 보여주기
+                    var showOperator = $('#show').text();
                     var cutShowOperator = showOperator.substring(showOperator.length - 1, showOperator.length);
                     // 클릭된 부호로 변경해서 보여주기
                     if (cutShowOperator == '+' 
                         || cutShowOperator == '-' 
                         || cutShowOperator == '÷'  
                         || cutShowOperator == 'x') {
-                        $('#show').val(showOperator.substring(0, showOperator.length - 1) + $(this).val());
+                        $('#show').text(showOperator.substring(0, showOperator.length - 1) + $(this).val());
                     } else {
-                        $('#show').val(showOperator + $(this).val());    
+                        $('#show').text(showOperator + $(this).val());    
                     }
 
                     // 부호 보내기
@@ -176,63 +195,91 @@
                     } else {
                     $('#send').val(sendOperator + "," + $(this).val() + ",");
                     }
-                    console.log("부호 버튼: " + sendOperator);
                 })
 
 
 
                  // 취소 버튼 클릭 시 (기본값 : ac)
                  $('#clear').on('click', function () {
-                    var show = $('#show').val();
+                    var input = $('#input').text();
+                    var show = $('#show').text();
                     var send = $('#send').val();
                     // 만약 계산 중 'c' 버튼을 눌렀을 때, 
-                    // 보이는 부분 show와 계산식 send의 마지막 ',숫자 혹은 부호,'를 없애기
+                    // 보이는 부분 input과 계산식 send의 마지막 ',숫자 혹은 부호,'를 없애기
                     if ($('#clear').val() == 'c') {
                         console.log("c-clear");
                         show = show.substring(0, show.length - 1);
-                        $('#show').val(show);
+                        console.log("show substring: " + show);
+                        $('#show').text(show);
+                        $('#input').text('0');
                         if (show == '') {
                             $('#clear').val('ac');  // 더 이상 지울게 없을 때 다시 'ac'로 초기화
-                            $('#show').val('0');     // '0'보이게 초기화
-                            $('#send').val('');     // 값 넘겨주는 곳도 초기화
-                            flag = 0;
-                            flagSend = 0;
+                            // $('#input').text('0');
+                            // $('#show').text('');     // '0'보이게 초기화
+                            // $('#send').val('');     // 값 넘겨주는 곳도 초기화
+                            // inputFlag = 0;
+                            // showFlag = 0;
+                            // sendFlag = 0;
                         }
-                        send = send.substring(0, send.length - 3);
-                        $('#send').val(send);
+                        var num = $('.btn').val();
+                        send = send.substring(0, send.length - 2);
+                        console.log("잘라낸 send: " + send);
+                        var cutLast = send.slice(-2, 0);
+                        console.log("cutLast: " + cutLast);
+                        // 마지막 부분이 '숫자,'인 경우 ',' 자르기
+                        if (cutLast == num + ",") {
+                            send = send.substring(0, send.length - 1);
+                            $('#send').val(send);
+                        // 마지막 부분이 ',부호'인 경우 ',' 붙이기
+                        } else if (cutLast == ",+" 
+                                    || cutLast == ",-"
+                                    || cutLast == ",x"
+                                    || cutLast == ",÷") {
+                            $('#send').val(send + ",");
+                        } else if (cutLast == ",(" 
+                                    || cutLast == ",)") {
+                            $('#send').val(send + ",");
+                        } else {
+                            $('#send').val(send);
+                        }
                     } else {
                         console.log("ac-clear");
-                        $('#show').val('0');    // '0' 보이게 초기화
+                        $('#input').text('0');    // '0' 보이게 초기화
+                        $('#show').text('');
                         $('#send').val('');
-                        flag = 0;
-                        flagSend = 0;
+                        inputFlag = 0;
+                        showFlag = 0;
+                        sendFlag = 0;
                     }
-                    console.log("취소된 send: " + send);
                  });
 
                  // 취소버튼 더블클릭 시 초기화
                 //  $('#clear').dblclick(function () {
                 //     console.log("ac-clear");
                 //     $('#clear').val('ac');
-                //     $('#show').val('0');
+                //     $('#input').val('0');
                 //     $('#send').val('');
-                //     flag = 0;
-                //     flagSend = 0;
+                //     inputFlag = 0;
+                //     sendFlag = 0;
                 //  });
 
 
 
                 // '(' 버튼 클릭 시
                 $('#bracketOpen').on('click', function () {
+                    inputInit();
+                    inputFlag = 1;
                     showInit();
-                    flag = 1;
+                    showFlag = 1;
                     sendInit();
-                    flagSend = 1;
+                    sendFlag = 1;
                     // 취소 버튼 'ac'를 'c'로 바꾸기
                     $('#clear').val('c');
-                    // 값 보여주기
-                    var showBracket = $('#show').val();
-                    $('#show').val(showBracket + $(this).val());
+                    // input 값 보여주기
+                    $('#input').text($(this).val());
+                     // show 값 보여주기
+                     var showBracket = $('#show').text();
+                    $('#show').text(showBracket + $(this).val());
                     // 값 보내기
                     var sendBracket = $('#send').val();
                     $('#send').val(sendBracket + $(this).val() + ",");
@@ -242,42 +289,47 @@
 
                 // ')' 버튼 클릭 시
                 $('#bracketClose').on('click', function () {
-                    showInit();
-                    flag = 1;
+                    inputInit();
+                    inputFlag = 1;
                     // 취소 버튼 'ac'를 'c'로 바꾸기
                     $('#clear').val('c');
-                     // 값 보여주기
-                     var showBracket = $('#show').val();
-                    $('#show').val(showBracket + $(this).val());
+                     // input 값 보여주기
+                    $('#input').text($(this).val());
+                     // show 값 보여주기
+                     var showBracket = $('#show').text();
+                    $('#show').text(showBracket + $(this).val());
                     // 값 보내기
                     var sendBracket = $('#send').val();
                     $('#send').val(sendBracket + "," + $(this).val());
                 });
 
                 $('#root').on('click', function () {
+                    inputInit();
+                    inputFlag = 1;
                     showInit();
-                    flag = 1;
-                    sendInit();
-                    flagSend = 1;
+                    showFlag = 1;
                     // 취소 버튼 'ac'를 'c'로 바꾸기
                     $('#clear').val('c');
-                    // 값 보여주기
-                    var showRoot = $('#show').val();
-                    $('#show').val(showRoot + $(this).val());
+                    // input 값 보여주기
+                    $('#input').text($(this).val());
+                    // show 값 보여주기
+                    var showRoot = $('#show').text();
+                    $('#show').text(showRoot + $(this).val());
                     // 값 보내기
                     var sendRoot = $('#send').val();
                     $('#send').val(sendRoot + $(this).val() + ",");
                 });
 
                 $('#power').on('click', function () {
-                    showInit();
-                    flag = 1;
-                    flagSend = 1;
+                    inputInit();
+                    inputFlag = 1;
                     // 취소 버튼 'ac'를 'c'로 바꾸기
                     $('#clear').val('c');
-                    // 값 보여주기
-                    var showPower = $('#show').val();
-                    $('#show').val(showPower + $(this).val());
+                    // input 값 보여주기
+                    $('#input').text($(this).val());
+                    // show 값 보여주기
+                    var showPower = $('#show').text();
+                    $('#show').text(showPower + $(this).val());
                     // 값 보내기
                     var sendPower = $('#send').val();
                     $('#send').val(sendPower + "," + $(this).val());
@@ -285,15 +337,23 @@
                  
 
 
-                 //  보여지는 부분 show 초기화
-                 function showInit() {
-                     if (flag == 0) {
-                        $('#show').val('');
+                 //  보여지는 부분 input 초기화
+                 function inputInit() {
+                     if (inputFlag == 0) {
+                        $('#input').text('');
                      }
                  }
+
+                //  보여지는 부분 show 초기화
+                function showInit() {
+                    if (showFlag == 0) {
+                        $('#show').text('');
+                     }
+                 }
+
                  //  보내는 부분 send 초기화
                  function sendInit() {
-                     if (flagSend == 0) {
+                     if (sendFlag == 0) {
                         $('#send').val('');
                      }
                  }
