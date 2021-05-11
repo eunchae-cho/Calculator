@@ -1,7 +1,8 @@
 
 
 .calc {
-    width: 270px;
+    width: 400px;
+    margin-left: 20px;
 }
 
 .calc h2 {
@@ -28,7 +29,7 @@
 }
 
 .show-container {
-    display: inline-block;
+    margin-inline: 65px;
 }
 
 .btn-container {
@@ -39,6 +40,7 @@
     display: flex;
     flex-wrap: wrap;
     height: 160px;;
+    margin-inline: 65px;
     justify-content: space-around;
     align-content: space-around;
 }
@@ -46,9 +48,6 @@
 .zero-container {
     width: 100%;
     text-align: right;
-}
-
-.item {
 }
 
 .btn {
@@ -112,3 +111,43 @@
     padding: 3px;
     font-size: medium;
 }
+
+.save-btn {
+    text-align: right; 
+    margin-block: 40px;
+    margin-inline: 10px;
+}
+
+.save-container {
+    display: flex;
+    flex-direction: column;
+    height: 366px;
+    overflow-y: scroll;
+}
+
+.save-box {
+    flex: auto;
+    margin-block: 5px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: rgb(230, 228, 228);
+}
+
+.top-box {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.fa-trash-alt:hover {
+    color: darkorange;
+}
+
+.content {
+    margin-block: 10px;
+    overflow-x: scroll;
+}
+/* 
+.content::-webkit-scrollbar{
+    display: none;
+} */

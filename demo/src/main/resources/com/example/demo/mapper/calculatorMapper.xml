@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+  <mapper namespace="com.example.demo.dao.CalculatorDao">
+
+    <resultMap type="HashMap" id="calculatorMap">
+        <id column="no" property="no"/>
+        <id column="date" property="date"/>
+        <id column="formula" property="formula"/>
+        <id column="result" property="result"/>
+    </resultMap>
+  
+    <select id="findAll" resultMap="calculatorMap">
+      select 
+          no,
+          date,
+          formula,
+          date
+      from calcTBL
+    </select>
+    
+  </mapper>

@@ -1,11 +1,11 @@
 package com.example.demo.config;
 
-import com.example.demo.function.Arthmetic;
-import com.example.demo.function.Bracket;
-import com.example.demo.function.Check;
-import com.example.demo.function.Error;
-import com.example.demo.function.Power;
-import com.example.demo.function.Root;
+import com.example.demo.web.function.Arthmetic;
+import com.example.demo.web.function.Bracket;
+import com.example.demo.web.function.Check;
+import com.example.demo.web.function.Error;
+import com.example.demo.web.function.Power;
+import com.example.demo.web.function.Root;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,4 +1,4 @@
-package com.example.demo.function;
+package com.example.demo.web.function;
 
 import java.util.List;
 

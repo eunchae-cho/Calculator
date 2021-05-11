@@ -1,57 +1,90 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-
-
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
     <!DOCTYPE html>
     <html>
     <head>
     <meta content="text/html; charset=UTF-8">
     <title>계산기</title>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
     <link rel="stylesheet" href="../../css/style.css">
     </head>
     <body>
         <div class="calc">
+
             <h2>계산기</h2>
+            
             <div class="show-container">
                 <textarea id="show" cols="19" rows="2" readonly></textarea>
                 <div id="input">0</div>
                 <input type="hidden" id="send" value=""/>
             </div>
 
-        <div class="btn-container">
-            <div class="container">
-                <input type="button" class="item" id="root" value="√"></input>
-                <input type="button" class="item" id="clear" value="ac"></input>
-                <input type="button" class="item" id="bracketOpen" value="("></input>
-                <input type="button" class="item" id="bracketClose" value=")"></input>
-                <input type="button" class="item btnOperator" value="÷"></input>
+            <div class="btn-container">
+                <div class="container">
+                    <input type="button" id="root" value="√"></input>
+                    <input type="button" id="clear" value="ac"></input>
+                    <input type="button" id="bracketOpen" value="("></input>
+                    <input type="button" id="bracketClose" value=")"></input>
+                    <input type="button" class="btnOperator" value="÷"></input>
 
-                <input type="button" class="item" id="power" value="²"></input>
-                <input type="button" class="item btn" value="7"></input>
-                <input type="button" class="item btn" value="8"></input>
-                <input type="button" class="item btn" value="9"></input>
-                <input type="button" class="item btnOperator" value="x"></input>
-                
-                <input type="button" class="item btnOperator" value=""></input>
-                <input type="button" class="item btn" value="4"></input>
-                <input type="button" class="item btn" value="5"></input>
-                <input type="button" class="item btn" value="6"></input>
-                <input type="button" class="item btnOperator" value="-"></input>
-                
-                <input type="button" class="btnOperator" value=""></input>
-                <input type="button" id="btnOne" class="btn" value="1"></input>
-                <input type="button" class="btn" value="2"></input>
-                <input type="button" class="btn" value="3"></input>
-                <input type="button" class="btnOperator" value="+"></input>
-                
-                <div class="zero-container">
-                    <input type="button" id="btnZero" class="btn" value="0"></input>
-                    <input type="button" class="btnOperator" value="."></input>
-                    <input type="button" id="btnEqual" value="="></input>
+                    <input type="button" id="power" value="²"></input>
+                    <input type="button" class="btn" value="7"></input>
+                    <input type="button" class="btn" value="8"></input>
+                    <input type="button" class="btn" value="9"></input>
+                    <input type="button" class="btnOperator" value="x"></input>
+                    
+                    <input type="button" class="btnOperator" value=""></input>
+                    <input type="button" class="btn" value="4"></input>
+                    <input type="button" class="btn" value="5"></input>
+                    <input type="button" class="btn" value="6"></input>
+                    <input type="button" class="btnOperator" value="-"></input>
+                    
+                    <input type="button" class="btnOperator" value=""></input>
+                    <input type="button" id="btnOne" class="btn" value="1"></input>
+                    <input type="button" class="btn" value="2"></input>
+                    <input type="button" class="btn" value="3"></input>
+                    <input type="button" class="btnOperator" value="+"></input>
+                    
+                    <div class="zero-container">
+                        <input type="button" id="btnZero" class="btn" value="0"></input>
+                        <input type="button" class="btnOperator" value="."></input>
+                        <input type="button" id="btnEqual" value="="></input>
+                    </div>
                 </div>
             </div>
-        </div>
+
+            <div class="save-btn">
+                <button onclick="window.open('/list', 'window_name','width=500, height=500, location=no, status=no, scrollbars=yes');">이전 결과 조회</button>
+            </div>
+
+             <div class="save-container">
+                <div class="save-box">
+                    <div class="top-box">
+                        <p style="font-size: 12px; margin-block: 5px;">날짜</p>
+                        <a href="#" style="color: black;"><i class="far fa-trash-alt"></i></a>
+                    </div>
+                    <h4 class="content">asdfasdfasdfasdfdfasdfasdfasdfasdfadsfsafasdfasdfa</h4>
+                    <h4 style="text-align: right; margin-block: 10px;">결과</h4>
+                </div>
+                <div class="save-box">
+                    <div class="top-box">
+                        <p style="font-size: 12px; margin-block: 5px;">날짜</p>
+                        <a href="#" style="color: black;"><i class="far fa-trash-alt"></i></a>
+                    </div>
+                    <h4 style="margin-block: 10px;">계산식</h4>
+                    <h4 style="text-align: right; margin-block: 10px;">결과</h4>
+                </div>
+                <div class="save-box">
+                    <div class="top-box">
+                        <p style="font-size: 12px; margin-block: 5px;">날짜</p>
+                        <a href="#" style="color: black;"><i class="far fa-trash-alt"></i></a>
+                    </div>
+                    <h4 style="margin-block: 10px;">계산식</h4>
+                     <h4 style="text-align: right; margin-block: 10px;">결과</h4>
+                </div>
+            </div>
+
         </div>
          
         <script src="../../js/stack.js"></script>
@@ -209,7 +242,6 @@
                     if ($('#clear').val() == 'c') {
                         console.log("c-clear");
                         show = show.substring(0, show.length - 1);
-                        console.log("show substring: " + show);
                         $('#show').text(show);
                         $('#input').text('0');
                         if (show == '') {
@@ -224,10 +256,12 @@
                         var num = $('.btn').val();
                         send = send.substring(0, send.length - 2);
                         console.log("잘라낸 send: " + send);
-                        var cutLast = send.slice(-2, 0);
+                        var cutLast = send.substring(send.length - 2, send.length);
                         console.log("cutLast: " + cutLast);
+
                         // 마지막 부분이 '숫자,'인 경우 ',' 자르기
-                        if (cutLast == num + ",") {
+                        if (cutLast == num + ","
+                            || cutLast == "),") {
                             send = send.substring(0, send.length - 1);
                             $('#send').val(send);
                         // 마지막 부분이 ',부호'인 경우 ',' 붙이기
@@ -237,7 +271,8 @@
                                     || cutLast == ",÷") {
                             $('#send').val(send + ",");
                         } else if (cutLast == ",(" 
-                                    || cutLast == ",)") {
+                                    || cutLast == ",√"
+                                    || cutLast == ",²") {
                             $('#send').val(send + ",");
                         } else {
                             $('#send').val(send);
@@ -308,6 +343,8 @@
                     inputFlag = 1;
                     showInit();
                     showFlag = 1;
+                    sendInit();
+                    sendFlag = 1;
                     // 취소 버튼 'ac'를 'c'로 바꾸기
                     $('#clear').val('c');
                     // input 값 보여주기
@@ -323,6 +360,8 @@
                 $('#power').on('click', function () {
                     inputInit();
                     inputFlag = 1;
+                    showInit();
+                    showFlag = 1;
                     // 취소 버튼 'ac'를 'c'로 바꾸기
                     $('#clear').val('c');
                     // input 값 보여주기

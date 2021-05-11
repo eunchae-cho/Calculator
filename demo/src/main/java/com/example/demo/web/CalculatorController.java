@@ -1,20 +1,24 @@
-package com.example.demo.controller;
+package com.example.demo.web;
 
 
 
 import java.util.LinkedList;
+import java.security.Provider.Service;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
-import com.example.demo.function.Arthmetic;
-import com.example.demo.function.Bracket;
-import com.example.demo.function.Check;
-import com.example.demo.function.Error;
-import com.example.demo.function.Power;
-import com.example.demo.function.Root;
+import com.example.demo.service.CalcService;
+import com.example.demo.web.function.Arthmetic;
+import com.example.demo.web.function.Bracket;
+import com.example.demo.web.function.Check;
+import com.example.demo.web.function.Error;
+import com.example.demo.web.function.Power;
+import com.example.demo.web.function.Root;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -29,15 +33,17 @@ public class CalculatorController {
     @Autowired Error error;
     @Autowired Root root;
     @Autowired Power power;
+
+    @Autowired CalcService calcService;
     
     @GetMapping("/")
-    public String home() {
+    public String home() throws Exception{
         return "calculator";
     }
 
     @ResponseBody 
     @PostMapping("/calculate")
-    public String calculator(String formula) {
+    public String calculator(String formula) throws Exception{
         String resultString = null;
         
         // ','로 구분한 계산식을 배열로 담기
@@ -98,6 +104,16 @@ public class CalculatorController {
         }
         System.out.println();
     }
+
+    @GetMapping("/list")
+    public void list(Model model) throws Exception {
+        List<Map<String, String>> list = calcService.list();
+    }
+
+    // @PostMapping("/add")
+    // public String add() throws Exception{
+    //     return "../calculator";
+    // }
 }
 
     
