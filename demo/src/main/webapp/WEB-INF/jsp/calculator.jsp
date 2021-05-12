@@ -1,5 +1,4 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
     <!DOCTYPE html>
     <html>
@@ -55,33 +54,21 @@
             </div>
 
             <div class="save-btn">
-                <button onclick="window.open('/list', 'window_name','width=500, height=500, location=no, status=no, scrollbars=yes');">이전 결과 조회</button>
+                <button onclick="window.open('/list', 'window_name','width=500px, height=500px, location=no, status=no, scrollbars=yes');">이전 결과 조회</button>
             </div>
 
-             <div class="save-container">
+            <div class="save-container">
                 <div class="save-box">
-                    <div class="top-box">
-                        <p style="font-size: 12px; margin-block: 5px;">날짜</p>
-                        <a href="#" style="color: black;"><i class="far fa-trash-alt"></i></a>
-                    </div>
-                    <h4 class="content">asdfasdfasdfasdfdfasdfasdfasdfasdfadsfsafasdfasdfa</h4>
-                    <h4 style="text-align: right; margin-block: 10px;">결과</h4>
-                </div>
-                <div class="save-box">
-                    <div class="top-box">
-                        <p style="font-size: 12px; margin-block: 5px;">날짜</p>
-                        <a href="#" style="color: black;"><i class="far fa-trash-alt"></i></a>
-                    </div>
-                    <h4 style="margin-block: 10px;">계산식</h4>
-                    <h4 style="text-align: right; margin-block: 10px;">결과</h4>
-                </div>
-                <div class="save-box">
-                    <div class="top-box">
-                        <p style="font-size: 12px; margin-block: 5px;">날짜</p>
-                        <a href="#" style="color: black;"><i class="far fa-trash-alt"></i></a>
-                    </div>
-                    <h4 style="margin-block: 10px;">계산식</h4>
-                     <h4 style="text-align: right; margin-block: 10px;">결과</h4>
+                    <c:forEach items="list" var="list">
+                             <c:if test="${!empty list}">
+                                <div class="top-box">
+                                    <p id="save-date" style="font-size: 12px; margin-block: 5px;">${list.date}</p>
+                                    <a href="#" style="color: black;"><i class="far fa-trash-alt"></i></a>
+                                </div>
+                                <h4 id="save-formula" class="content">${list.formula}</h4>
+                                <h4 id="save-result" style="text-align: right; margin-block: 10px;">${list.result}</h4>
+                            </c:if>
+                    </c:forEach>
                 </div>
             </div>
 
@@ -123,6 +110,20 @@
              var result= '';
 
              $(function () {
+
+                 $.ajax({
+                    url: '/save',
+                    type: 'GET',
+                    dataType: 'html',
+                    success: function(data) {
+                        console.log(data);
+                        $('.save-box').html(html);
+                    },
+                    error: function() {
+                        console.log("error");
+                    }
+                 });
+
                  // '=' 버튼 클릭시 
                  $('#btnEqual').on('click', function () {
                      var show = $('#show').text();
@@ -134,7 +135,8 @@
                         url: '/calculate',
                         type: 'POST',
                         data: {
-                            formula: $('#send').val()
+                            formula: $('#send').val(),
+                            show: $('#show').val()
                         },
                         dataType: 'text',
                         success: function (formula) {

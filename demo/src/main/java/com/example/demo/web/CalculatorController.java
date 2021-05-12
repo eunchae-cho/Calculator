@@ -3,7 +3,7 @@ package com.example.demo.web;
 
 
 import java.util.LinkedList;
-import java.security.Provider.Service;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -43,7 +43,7 @@ public class CalculatorController {
 
     @ResponseBody 
     @PostMapping("/calculate")
-    public String calculator(String formula) throws Exception{
+    public String calculator(Model model, String formula, String show) throws Exception{
         String resultString = null;
         
         // ','로 구분한 계산식을 배열로 담기
@@ -90,12 +90,43 @@ public class CalculatorController {
 
         // 일반식 계산
         arthmetic.calculate(formulaList);
-        resultString = formulaList.get(0);
+        resultString = check.convertResultType(Double.parseDouble(formulaList.get(0)), (int) Double.parseDouble(formulaList.get(0)));
 
-        return check.convertResultType(Double.parseDouble(resultString), (int) Double.parseDouble(resultString));
+        // add - db에 값 저장
+        Map<String, Object> map = new HashMap<>();
+        map.put("formula", show);
+        map.put("result", resultString);
+        calcService.add(map);
+
+        List<Map<String, Object>> list = calcService.listToday();
+        model.addAttribute("list", list);
+
+        return resultString;
     }
     
-  
+    @ResponseBody
+    @GetMapping("/save")
+    public List<Map<String, Object>> save(Model model) throws Exception {
+        List<Map<String, Object>> list = calcService.listToday();
+        model.addAttribute("list", list);
+        return list;
+    }
+    
+    @GetMapping("/list")
+    public String list(Model model) throws Exception {
+        List<Map<String, Object>> list = calcService.list();
+        model.addAttribute("list", list);
+        return "list";
+    }
+    
+    @GetMapping("/list/delete")
+    public String delete(int no) throws Exception {
+        calcService.delete(no);
+        return "redirect:/list";
+    }
+
+    //-----------------------------------------------------
+
     // 확인용 LinkedList 값 출력
     public void printList(List<String> list) {
         Iterator<String> iterator = list.iterator();
@@ -104,16 +135,6 @@ public class CalculatorController {
         }
         System.out.println();
     }
-
-    @GetMapping("/list")
-    public void list(Model model) throws Exception {
-        List<Map<String, String>> list = calcService.list();
-    }
-
-    // @PostMapping("/add")
-    // public String add() throws Exception{
-    //     return "../calculator";
-    // }
 }
 
     

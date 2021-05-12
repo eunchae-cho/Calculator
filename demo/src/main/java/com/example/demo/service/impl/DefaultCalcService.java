@@ -19,8 +19,23 @@ public class DefaultCalcService implements CalcService{
     }
 
     @Override
-    public List<Map<String, String>> list() throws Exception { 
+    public List<Map<String, Object>> list() throws Exception { 
         return calculatorDao.findAll();
+    }
+    
+    @Override
+    public List<Map<String, Object>> listToday() throws Exception { 
+        return calculatorDao.findToday();
+    }
+    
+    @Override
+    public int delete(int no) throws Exception {
+        return calculatorDao.delete(no);
+    }
+
+    @Override
+    public int add(Map<String, Object> map) throws Exception {
+        return calculatorDao.add(map);
     }
 
 }

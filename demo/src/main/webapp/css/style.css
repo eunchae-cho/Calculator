@@ -151,3 +151,29 @@
 .content::-webkit-scrollbar{
     display: none;
 } */
+
+
+
+/* ----------------------------- 
+             table css 
+------------------------------- */
+
+table {
+    border-collapse: collapse;
+    line-height: 1.0;
+}
+
+thead th {
+    padding: 10px;
+    border-bottom: 3px solid #036;
+}
+
+tbody td {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    max-width: 50px;
+}
+

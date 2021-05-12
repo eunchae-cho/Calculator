@@ -5,5 +5,10 @@ import java.util.Map;
 
 
 public interface CalculatorDao {
-    List<Map<String, String>> findAll()throws Exception;
+    List<Map<String, Object>> findAll()throws Exception;
+    Map<String, Object> findNyNo(int no) throws Exception;
+    List<Map<String, Object>> findToday()throws Exception;
+    int delete(int no) throws Exception;
+    int add(Map<String, Object> map)throws Exception;
+    
 }

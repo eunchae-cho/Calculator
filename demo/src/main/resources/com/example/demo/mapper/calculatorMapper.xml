@@ -15,10 +15,45 @@
     <select id="findAll" resultMap="calculatorMap">
       select 
           no,
-          date,
+          date_format(date, '%Y-%m-%d')as date,
           formula,
-          date
+          result
       from calcTBL
+      order by no desc
     </select>
+
+    <select id="findByNo" resultMap="calculatorMap" parameterType="int">
+      select 
+          no,
+          date_format(date, '%Y-%m-%d')as date,
+          formula,
+          result
+      from calcTBL
+      where no = #{no}
+      order by no desc
+    </select>
+
+    <select id="findToday" resultMap="calculatorMap">
+      select 
+          no,
+          date_format(date, '%Y-%m-%d')as d,
+          formula,
+          result
+      from calcTBL
+      where date_format(date, '%Y-%m-%d') = date_format(now(), '%Y-%m-%d')
+      order by no desc
+    </select>
+
+    <insert id="add">
+      insert into calcTBL
+        (date, formula, result)
+      values
+        (now(), #{formula}, #{result})
+    </insert>
+
+    <delete id="delete" parameterType="int">
+      delete from calcTBL
+      where no = #{no}
+    </delete>
     
   </mapper>
