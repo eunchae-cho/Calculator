@@ -1,6 +1,7 @@
 package com.example.demo.web.function;
 
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 // 사칙연산
@@ -10,7 +11,7 @@ public class Arthmetic {
         float resultFloat = 0;
         int size = list.size();
         //int count = 0;
-
+        try {
         while(size != 1) {
 
             // '(', ')' 삭제
@@ -70,6 +71,11 @@ public class Arthmetic {
                     continue;
                 }
             }
+        }
+        } catch (IndexOutOfBoundsException e) {
+            List<String> errorList = new LinkedList<>();
+            errorList.add("?4");
+            return errorList;
         }
         return list;
     }

@@ -8,6 +8,7 @@
     <title>계산기</title>
     <link rel="stylesheet" href="../../css/style.css">
     </head>
+    <body>
         <br>
         <table width="100%" align="center">
             <thead align="center">
@@ -25,13 +26,18 @@
                         </c:if>
                     <tr>
                         <td>${list.date}</td>
-                        <td width="200px"><a href="#">${list.formula}</a></td>
+                        <td width="200px"><a href="javascript:void(0);" onclick="callParent('${list.no}','${list.formula}','${list.send}');">${list.formula}</a></td>
                         <td width="110px">${list.result}</td>
                         <td><a href="list/delete?no=${list.no}">삭제</a></td>
                     </tr>
                     </c:forEach>
                 </tbody>
             </table>
-    <body>
+    <script>
+        function callParent(no, formula, send) {
+            opener.callChild(no, formula, send);
+            self.close();
+        } 
+    </script>
     </body>
     </html>

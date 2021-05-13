@@ -10,6 +10,7 @@
         <id column="date" property="date"/>
         <id column="formula" property="formula"/>
         <id column="result" property="result"/>
+        <id column="send" property="send"/>
     </resultMap>
   
     <select id="findAll" resultMap="calculatorMap">
@@ -17,7 +18,8 @@
           no,
           date_format(date, '%Y-%m-%d')as date,
           formula,
-          result
+          result,
+          send
       from calcTBL
       order by no desc
     </select>
@@ -27,10 +29,10 @@
           no,
           date_format(date, '%Y-%m-%d')as date,
           formula,
-          result
+          result,
+          send
       from calcTBL
       where no = #{no}
-      order by no desc
     </select>
 
     <select id="findToday" resultMap="calculatorMap">
@@ -38,7 +40,8 @@
           no,
           date_format(date, '%Y-%m-%d')as d,
           formula,
-          result
+          result,
+          send
       from calcTBL
       where date_format(date, '%Y-%m-%d') = date_format(now(), '%Y-%m-%d')
       order by no desc
@@ -46,14 +49,13 @@
 
     <insert id="add">
       insert into calcTBL
-        (date, formula, result)
+        (date, formula, result, send)
       values
-        (now(), #{formula}, #{result})
+        (now(), #{formula}, #{result}, #{send})
     </insert>
 
     <delete id="delete" parameterType="int">
       delete from calcTBL
       where no = #{no}
     </delete>
-    
   </mapper>

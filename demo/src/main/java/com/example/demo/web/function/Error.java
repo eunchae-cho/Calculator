@@ -27,4 +27,13 @@ public class Error {
         }
         return list;
     }
+
+    // '?4'
+    public List<String> wrongFormula(List<String> list) {
+        if (list.get(0).equals("?4")) {
+            errorList.add(0, "잘못된 식");
+            return errorList;
+        }
+        return list;
+    }
 }

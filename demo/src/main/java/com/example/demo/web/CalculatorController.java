@@ -21,6 +21,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 
@@ -90,11 +91,18 @@ public class CalculatorController {
 
         // 일반식 계산
         arthmetic.calculate(formulaList);
+        if ("?4".equals(formulaList.get(0))) {
+            formulaList = error.wrongFormula(formulaList);
+            resultString = formulaList.get(0);
+            return resultString;
+        }
+
         resultString = check.convertResultType(Double.parseDouble(formulaList.get(0)), (int) Double.parseDouble(formulaList.get(0)));
 
-        // add - db에 값 저장
+        // add 
         Map<String, Object> map = new HashMap<>();
-        map.put("formula", show);
+        map.put("formula", show);   // 일반 보여지는 식 - show
+        map.put("send", formula);   // ','로 일일히 찍혀있는 식 - send
         map.put("result", resultString);
         calcService.add(map);
 
@@ -106,10 +114,14 @@ public class CalculatorController {
     
     @ResponseBody
     @GetMapping("/save")
-    public List<Map<String, Object>> save(Model model) throws Exception {
-        List<Map<String, Object>> list = calcService.listToday();
-        model.addAttribute("list", list);
-        return list;
+    public List<Map<String, Object>> save() throws Exception {
+        return calcService.listToday();
+    }
+
+    @GetMapping("/delete")
+    public String list(int no) throws Exception {
+        calcService.delete(no);
+        return "redirect:./";
     }
     
     @GetMapping("/list")
@@ -120,7 +132,7 @@ public class CalculatorController {
     }
     
     @GetMapping("/list/delete")
-    public String delete(int no) throws Exception {
+    public String listDelete(int no) throws Exception {
         calcService.delete(no);
         return "redirect:/list";
     }

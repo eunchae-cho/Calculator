@@ -122,7 +122,7 @@
     display: flex;
     flex-direction: column;
     height: 366px;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 .save-box {
@@ -145,7 +145,7 @@
 
 .content {
     margin-block: 10px;
-    overflow-x: scroll;
+    overflow-x: auto;
 }
 /* 
 .content::-webkit-scrollbar{

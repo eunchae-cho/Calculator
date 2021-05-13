@@ -27,6 +27,11 @@ public class DefaultCalcService implements CalcService{
     public List<Map<String, Object>> listToday() throws Exception { 
         return calculatorDao.findToday();
     }
+
+    @Override
+    public Map<String, Object> oneByNo(int no) throws Exception {
+        return calculatorDao.findByNo(no);
+    }
     
     @Override
     public int delete(int no) throws Exception {
@@ -37,5 +42,4 @@ public class DefaultCalcService implements CalcService{
     public int add(Map<String, Object> map) throws Exception {
         return calculatorDao.add(map);
     }
-
 }

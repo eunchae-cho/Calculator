@@ -58,18 +58,7 @@
             </div>
 
             <div class="save-container">
-                <div class="save-box">
-                    <c:forEach items="list" var="list">
-                             <c:if test="${!empty list}">
-                                <div class="top-box">
-                                    <p id="save-date" style="font-size: 12px; margin-block: 5px;">${list.date}</p>
-                                    <a href="#" style="color: black;"><i class="far fa-trash-alt"></i></a>
-                                </div>
-                                <h4 id="save-formula" class="content">${list.formula}</h4>
-                                <h4 id="save-result" style="text-align: right; margin-block: 10px;">${list.result}</h4>
-                            </c:if>
-                    </c:forEach>
-                </div>
+                <!-- ajax 요청 부분 -->
             </div>
 
         </div>
@@ -109,20 +98,52 @@
              var sendFlag = 0;
              var result= '';
 
-             $(function () {
-
-                 $.ajax({
+             $.saveList = function() {
+                $.ajax({
                     url: '/save',
                     type: 'GET',
-                    dataType: 'html',
+                    dataType: 'json',
                     success: function(data) {
                         console.log(data);
-                        $('.save-box').html(html);
+                        var htmls = "";
+                        //var obj = JSON.parse(data);
+                        //var arr = eval(data);
+
+                        if(data.length < 1) {
+                            htmls += "<p></p>";     // 아무것도 없을 때 지정
+                        } else {
+                            $(data).each(function() {
+                                htmls += "<div>"
+                                htmls += '<div class="save-box">';
+                                htmls += '<div class="top-box">';
+                                htmls += '<p id="save-date" style="font-size: 12px; margin-block: 5px;">' + this.d + '</p>';   
+                                htmls += '<a href="/delete?no='+ this.no +'" style="color: black;"><i class="far fa-trash-alt"></i></a>';
+                                htmls += '</div>';
+                                htmls += '<h4 id="save-formula" class="content">' + this.formula + '</h4>';
+                                htmls += '<h4 id="save-result" style="text-align: right; margin-block: 10px;">' + this.result + '</h4>';
+                                htmls += '</div>';
+                                htmls += "</div>";
+                            });                 
+                        };   
+                            $('.save-container').html(htmls);
                     },
                     error: function() {
                         console.log("error");
                     }
                  });
+             }
+
+            function callChild(no, formula, send) {
+                $('#show').text(formula);
+                $('#send').val(send);
+                $('#input').val("0");
+                $('#clear').val("c");            
+            }
+
+             $(function () {
+
+                // 오늘 날짜 리스트 불러오기
+                $.saveList();
 
                  // '=' 버튼 클릭시 
                  $('#btnEqual').on('click', function () {
@@ -136,7 +157,7 @@
                         type: 'POST',
                         data: {
                             formula: $('#send').val(),
-                            show: $('#show').val()
+                            show: $('#show').text(),
                         },
                         dataType: 'text',
                         success: function (formula) {
@@ -149,6 +170,8 @@
                             inputFlag = 0;
                             showFlag = 0;
                             sendFlag = 0;
+                            // add 시 리스트에 보이게 추가
+                            $.saveList();
                         },
                         error: function() {
                             $('#input').text('0');
@@ -165,12 +188,17 @@
 
                  // 숫자 버튼 클릭 시 
                  $('.btn').on('click', function () {
-                    inputInit();
-                    inputFlag = 1;
-                    showInit();
-                    showFlag = 1;
-                    sendInit();
-                    sendFlag = 1;
+                     inputInit();
+                     inputFlag = 1;
+                    if ($('#show').text == "") {
+                        showInit();
+                        showFlag = 1;
+                        sendInit();
+                        sendFlag = 1;
+                    } else {
+                        showFlag = 1;
+                        sendFlag = 1;
+                    }
 
                     // 취소 버튼 'ac'를 'c'로 바꾸기
                     $('#clear').val('c');
@@ -189,16 +217,23 @@
 
                  // 부호 버튼 클릭 시
                  $('.btnOperator').on('click', function () {
-                    inputInit();
-                    inputFlag = 1;
-                    sendInit();
-                    sendFlag = 1;
-                    if (showFlag == 0) {
-                        showInit();
-                        $('#show').text(result);
-                        $('#send').val(result);
+                     inputInit();
+                     inputFlag = 1;
+                    if ($('#show').text == "") {
+                        sendInit();
+                        sendFlag = 1;
+                        if (showFlag == 0) {
+                            showInit();
+                            $('#show').text(result);
+                            $('#send').val(result);
+                            showFlag = 1;
+                        }
+                    } else {
+                        inputFlag = 1;
+                        sendFlag = 1;
                         showFlag = 1;
                     }
+                    
                     // 취소 버튼 'ac'를 'c'로 바꾸기
                     $('#clear').val('c');
                     
@@ -256,6 +291,7 @@
                             // sendFlag = 0;
                         }
                         var num = $('.btn').val();
+                        console.log("send: " + send);
                         send = send.substring(0, send.length - 2);
                         console.log("잘라낸 send: " + send);
                         var cutLast = send.substring(send.length - 2, send.length);
@@ -263,21 +299,26 @@
 
                         // 마지막 부분이 '숫자,'인 경우 ',' 자르기
                         if (cutLast == num + ","
-                            || cutLast == "),") {
+                            || cutLast == "),"
+                            ) {
                             send = send.substring(0, send.length - 1);
                             $('#send').val(send);
+                            console.log("s1: " + send);
                         // 마지막 부분이 ',부호'인 경우 ',' 붙이기
                         } else if (cutLast == ",+" 
                                     || cutLast == ",-"
                                     || cutLast == ",x"
                                     || cutLast == ",÷") {
                             $('#send').val(send + ",");
+                            console.log("s2: " + send);
                         } else if (cutLast == ",(" 
                                     || cutLast == ",√"
                                     || cutLast == ",²") {
                             $('#send').val(send + ",");
+                            console.log("s3: " + send);
                         } else {
                             $('#send').val(send);
+                            console.log("s4: " + send);
                         }
                     } else {
                         console.log("ac-clear");
@@ -398,7 +439,7 @@
                         $('#send').val('');
                      }
                  }
-             } )
+             });
          </script>
     </body>
     </html>
