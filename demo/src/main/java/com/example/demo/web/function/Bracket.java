@@ -69,17 +69,19 @@ public class Bracket {
                     printList(list);
                     count++;
                 }
-                break;  // 괄호식 하나가 계산되면 탈출
+                // 괄호식 하나가 계산되면 탈출
+                break;
             } else {
                 continue;
             }
         }
         
         // 계산식에 잘못된 괄호 입력이 있는지 확인 
+        // 잘못된 괄호식이 있다면 '?1' 보냄
         if (check.checkWrongBracket(list)) {
             List<String> errorList = new LinkedList<>();
             errorList.add("?1");
-            return errorList;       // 잘못된 괄호식이 있다면 '?1' 보냄
+            return errorList;       
         } else {
             // 계산식에 괄호가 또 있는지 확인
             if (check.checkBracket(list)) {

@@ -54,7 +54,8 @@ public class Check {
                 count++;
             } 
         }
-        if (count % 2 != 0) {       // 괄호 '(' 혹은 ')'의 갯수가 홀수일 때
+        // 괄호 '(' 혹은 ')'의 갯수가 홀수일 때
+        if (count % 2 != 0) {
             return true;
         } else {
             return false;

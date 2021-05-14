@@ -26,7 +26,7 @@
                         </c:if>
                     <tr>
                         <td>${list.date}</td>
-                        <td width="200px"><a href="javascript:void(0);" onclick="callParent('${list.no}','${list.formula}','${list.send}');">${list.formula}</a></td>
+                        <td width="200px"><a href="javascript:void(0);" onclick="callParent('${list.formula}','${list.send}');">${list.formula}</a></td>
                         <td width="110px">${list.result}</td>
                         <td><a href="list/delete?no=${list.no}">삭제</a></td>
                     </tr>
@@ -34,9 +34,11 @@
                 </tbody>
             </table>
     <script>
-        function callParent(no, formula, send) {
-            opener.callChild(no, formula, send);
-            self.close();
+        // calculator.jsp에 저장된 리스트 중 
+        // 클릭된 하나의 값 보내서 식과 결과값 보여주기
+        function callParent(formula, send) {
+            opener.callChild(formula, send);
+            window.open('','_self').close();
         } 
     </script>
     </body>

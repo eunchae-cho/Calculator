@@ -10,23 +10,9 @@ public class Arthmetic {
     public List<String> calculate(List<String> list) {
         float resultFloat = 0;
         int size = list.size();
-        //int count = 0;
+        
         try {
         while(size != 1) {
-
-            // '(', ')' 삭제
-            // System.out.print("list :");
-            // printList(list);
-            // for (int i = 0; i < size; i++) {
-            //     System.out.println("a");
-            //     if (list.get(i).equals("(") || list.get(i).equals(")")) {
-            //         System.out.println("b");
-            //         list.remove(i);
-            //         size = list.size();
-            //         } else {
-            //         continue;
-            //     }
-            // }
             
             // 곱하기
             for (int i = 0; i < size; i++) {
@@ -49,22 +35,22 @@ public class Arthmetic {
                     continue;
                 }
             }
-
-            // 더하기
+            
+            // 빼기
             for (int i = 0; i < size; i++) {
-                if (list.get(i).equals("+")) {
-                    resultFloat = Float.parseFloat(list.get(i - 1)) + Float.parseFloat(list.get(i + 1)); 
+                if (list.get(i).equals("-")) {
+                    resultFloat = Float.parseFloat(list.get(i - 1)) - Float.parseFloat(list.get(i + 1)); 
                     calculateBothOfIndex(list, resultFloat, i);
                     size = list.size();
                 } else {
                     continue;
                 }
             }
-
-            // 빼기
+            
+            // 더하기
             for (int i = 0; i < size; i++) {
-                if (list.get(i).equals("-")) {
-                    resultFloat = Float.parseFloat(list.get(i - 1)) - Float.parseFloat(list.get(i + 1)); 
+                if (list.get(i).equals("+")) {
+                    resultFloat = Float.parseFloat(list.get(i - 1)) + Float.parseFloat(list.get(i + 1)); 
                     calculateBothOfIndex(list, resultFloat, i);
                     size = list.size();
                 } else {

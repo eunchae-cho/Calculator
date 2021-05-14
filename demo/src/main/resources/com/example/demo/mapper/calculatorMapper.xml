@@ -14,48 +14,58 @@
     </resultMap>
   
     <select id="findAll" resultMap="calculatorMap">
-      select 
-          no,
-          date_format(date, '%Y-%m-%d')as date,
-          formula,
-          result,
+      SELECT 
+        , no
+        , DATE_FORMAT(date, '%Y-%m-%d') AS date
+        , formula
+        , result
           send
-      from calcTBL
-      order by no desc
+      FROM 
+        calcTBL
+      ORDER BY 
+        no DESC
     </select>
 
     <select id="findByNo" resultMap="calculatorMap" parameterType="int">
-      select 
-          no,
-          date_format(date, '%Y-%m-%d')as date,
-          formula,
-          result,
+      SELECT 
+        , no
+        , DATE_FORMAT(date, '%Y-%m-%d') AS date
+        , formula
+        , result
           send
-      from calcTBL
-      where no = #{no}
+      FROM 
+        calcTBL
+      WHERE 
+        no = #{no}
     </select>
 
     <select id="findToday" resultMap="calculatorMap">
-      select 
-          no,
-          date_format(date, '%Y-%m-%d')as d,
-          formula,
-          result,
+      SELECT 
+        , no
+        , DATE_FORMAT(date, '%Y-%m-%d') AS d
+        , formula
+        , result
           send
-      from calcTBL
-      where date_format(date, '%Y-%m-%d') = date_format(now(), '%Y-%m-%d')
-      order by no desc
+      FROM 
+        calcTBL
+      WHERE 
+        DATE_FORMAT(date, '%Y-%m-%d') = DATE_FORMAT(NOW(), '%Y-%m-%d')
+      ORDER BY 
+        no DESC
     </select>
 
     <insert id="add">
-      insert into calcTBL
+      INSERT INTO calcTBL
         (date, formula, result, send)
-      values
-        (now(), #{formula}, #{result}, #{send})
+      VALUES
+        (NOW(), #{formula}, #{result}, #{send})
     </insert>
 
     <delete id="delete" parameterType="int">
-      delete from calcTBL
-      where no = #{no}
+      DELETE 
+      FROM 
+        calcTBL
+      WHERE 
+        no = #{no}
     </delete>
   </mapper>

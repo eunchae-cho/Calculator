@@ -20,6 +20,7 @@ public class Error {
         return list;
     }
 
+    // '?2' 문자열이 있을 때 리턴
     public List<String> wrongPower(List<String> list) {
         if (list.get(0).equals("?2")) {
             errorList.add(0, "잘못된 제곱");
@@ -28,7 +29,7 @@ public class Error {
         return list;
     }
 
-    // '?4'
+    // '?4' 문자열이 있을 때 리턴
     public List<String> wrongFormula(List<String> list) {
         if (list.get(0).equals("?4")) {
             errorList.add(0, "잘못된 식");

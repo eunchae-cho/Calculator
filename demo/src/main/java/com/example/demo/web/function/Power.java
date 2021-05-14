@@ -44,8 +44,10 @@ public class Power {
                             
                             // 기존 list에서 해당 괄호식 삭제
                             int count = 0;                          
-                            while(count != closeIndex - openIndex + 2) {    // '²' 포함 지워야할 괄호식의 갯수 => '( )²'
-                                list.remove(openIndex + 1);                 // 지워야할 연속된 자리
+                            // '²' 포함 지워야할 괄호식의 갯수 => '( )²'
+                            while(count != closeIndex - openIndex + 2) {    
+                                // 지워야할 연속된 자리
+                                list.remove(openIndex + 1);                 
                                 System.out.print("remove list: ");
                                 printList(list);
                                 count++;

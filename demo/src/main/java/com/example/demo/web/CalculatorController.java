@@ -21,7 +21,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 
@@ -63,11 +62,6 @@ public class CalculatorController {
         // 거듭제곱이 있다면 거듭제곱 계산
         if (check.checkPower(formulaList)) {
             formulaList = power.calculate(formulaList);
-            // 만약 거듭제곱식이 잘못되었다면 에러메세지 리턴
-            // if ("?2".equals(formulaList.get(0)));
-            //     formulaList = error.wrongPower(formulaList);
-            //     resultString = formulaList.get(0);
-            //     return resultString;
         }
 
         // 괄호식이 있다면 괄호식 계산
@@ -99,13 +93,16 @@ public class CalculatorController {
 
         resultString = check.convertResultType(Double.parseDouble(formulaList.get(0)), (int) Double.parseDouble(formulaList.get(0)));
 
-        // add 
+        // add - 결과 식과 값 저장
         Map<String, Object> map = new HashMap<>();
-        map.put("formula", show);   // 일반 보여지는 식 - show
-        map.put("send", formula);   // ','로 일일히 찍혀있는 식 - send
+        // show - 일반 보여지는 식 
+        map.put("formula", show);   
+        // send - ','로 일일히 찍혀있는 식
+        map.put("send", formula);   
         map.put("result", resultString);
         calcService.add(map);
 
+        // 오늘 날짜인 것만 list
         List<Map<String, Object>> list = calcService.listToday();
         model.addAttribute("list", list);
 
@@ -137,8 +134,8 @@ public class CalculatorController {
         return "redirect:/list";
     }
 
+    
     //-----------------------------------------------------
-
     // 확인용 LinkedList 값 출력
     public void printList(List<String> list) {
         Iterator<String> iterator = list.iterator();

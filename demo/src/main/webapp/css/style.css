@@ -1,4 +1,7 @@
 
+/* ----------------------------- 
+            calculator css 
+------------------------------- */
 
 .calc {
     width: 400px;
@@ -10,6 +13,10 @@
     margin-top: 30px;
     margin-bottom: 0px;
 }
+
+/* ----------------------------- 
+            button css 
+------------------------------- */
 
 #input {
     padding-block: 10px;
@@ -55,7 +62,6 @@
     padding: 3px;
     font-size: medium;
 }
-
 
 .btnOperator {
     width: 50px;
@@ -111,6 +117,10 @@
     padding: 3px;
     font-size: medium;
 }
+
+/* ----------------------------- 
+            save css 
+------------------------------- */
 
 .save-btn {
     text-align: right; 

@@ -63,40 +63,21 @@
 
         </div>
          
-        <script src="../../js/stack.js"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
-        <script>
-            //  window.onload = function () {
-            //     // 버튼 클릭 시 숫자 누적
-            //     let input = document.getElementById("input");
-            //     let btnNumber = document.getElementsByClassName("btn");
-            //     let btnOperator = document.getElementsByClassName("btnOperator");
-            //     let stack = new Stack();
-            //     var sum = 0;
-                
-            //     for (let i = 0; i < btnNumber.length; i++) {
-            //         btnNumber[i].addEventListener("click", function addStack(){
-            //             console.log(btnNumber[i]);
-            //             stack.push(btnNumber[i].value);
-            //             console.log("스택: " + stack.print());
-            //             input.innerText += btnNumber[i].value;
-            //         })
-            //         for (let j = 0; j < stack.size(); j++) {
-            //             console.log("stack.peek("+j+")");
-            //             console.log("10제곱: "+Math.pow(10,j));
-            //             sum += stack.peek(j) * Math.pow(10,j);
-            //             console.log("sum :", sum);
-            //         }
-            //     }
-            // }
-             
-         </script>
          <script>
             // inputFlag가 '0'일 때는 최초의 상태 
              var inputFlag = 0;
              var showFlag = 0;
              var sendFlag = 0;
              var result= '';
+
+             // list.jsp에서 내용 받아오기
+            function callChild(formula, send) {
+                $('#show').text(formula);
+                $('#send').val(send);
+                $('#input').val("0");
+                $('#clear').val("c");
+            }
 
              $.saveList = function() {
                 $.ajax({
@@ -133,13 +114,6 @@
                  });
              }
 
-            function callChild(no, formula, send) {
-                $('#show').text(formula);
-                $('#send').val(send);
-                $('#input').val("0");
-                $('#clear').val("c");            
-            }
-
              $(function () {
 
                 // 오늘 날짜 리스트 불러오기
@@ -162,10 +136,13 @@
                         dataType: 'text',
                         success: function (formula) {
                             console.log("formula: " + formula);
-                            $('#input').text(formula);    // 계산한 결과 보여주기
+                            // 계산한 결과 보여주기
+                            $('#input').text(formula);    
                             $('#show').text(show + "=" + formula);
-                            $('#send').val(formula + ",");    // 계산한 결과값으로 초기화
-                            $('#clear').val('ac');      // 취소 버튼 'ac'로 초기화
+                            // 계산한 결과값으로 초기화
+                            $('#send').val(formula + ",");    
+                             // 취소 버튼 'ac'로 초기화
+                            $('#clear').val('ac');     
                             result = formula;
                             inputFlag = 0;
                             showFlag = 0;
@@ -202,7 +179,6 @@
 
                     // 취소 버튼 'ac'를 'c'로 바꾸기
                     $('#clear').val('c');
-                    
                     // input 값 보여주기
                     $('#input').text($(this).val());
                     // show 값 보여주기
@@ -274,55 +250,45 @@
                     var input = $('#input').text();
                     var show = $('#show').text();
                     var send = $('#send').val();
+
                     // 만약 계산 중 'c' 버튼을 눌렀을 때, 
                     // 보이는 부분 input과 계산식 send의 마지막 ',숫자 혹은 부호,'를 없애기
                     if ($('#clear').val() == 'c') {
                         console.log("c-clear");
                         show = show.substring(0, show.length - 1);
                         $('#show').text(show);
+                        // input '0'으로 초기화
                         $('#input').text('0');
+                        // 더 이상 지울게 없을 때 다시 'ac'로 초기화
                         if (show == '') {
-                            $('#clear').val('ac');  // 더 이상 지울게 없을 때 다시 'ac'로 초기화
-                            // $('#input').text('0');
-                            // $('#show').text('');     // '0'보이게 초기화
-                            // $('#send').val('');     // 값 넘겨주는 곳도 초기화
-                            // inputFlag = 0;
-                            // showFlag = 0;
-                            // sendFlag = 0;
+                            $('#clear').val('ac');  
                         }
-                        var num = $('.btn').val();
-                        console.log("send: " + send);
+
+                        // 뒤의 2자리 잘라내기
                         send = send.substring(0, send.length - 2);
-                        console.log("잘라낸 send: " + send);
                         var cutLast = send.substring(send.length - 2, send.length);
                         console.log("cutLast: " + cutLast);
-
-                        // 마지막 부분이 '숫자,'인 경우 ',' 자르기
-                        if (cutLast == num + ","
-                            || cutLast == "),"
-                            ) {
-                            send = send.substring(0, send.length - 1);
-                            $('#send').val(send);
-                            console.log("s1: " + send);
+                       
                         // 마지막 부분이 ',부호'인 경우 ',' 붙이기
-                        } else if (cutLast == ",+" 
-                                    || cutLast == ",-"
-                                    || cutLast == ",x"
-                                    || cutLast == ",÷") {
+                         if (cutLast == ",+" 
+                                || cutLast == ",-"
+                                || cutLast == ",x"
+                                || cutLast == ",÷") {
                             $('#send').val(send + ",");
                             console.log("s2: " + send);
                         } else if (cutLast == ",(" 
-                                    || cutLast == ",√"
-                                    || cutLast == ",²") {
+                                || cutLast == ",√"
+                                || cutLast == ",²") {
                             $('#send').val(send + ",");
                             console.log("s3: " + send);
                         } else {
+                            send = send.substring(0, send.length - 1);
                             $('#send').val(send);
                             console.log("s4: " + send);
                         }
                     } else {
                         console.log("ac-clear");
-                        $('#input').text('0');    // '0' 보이게 초기화
+                        $('#input').text('0');
                         $('#show').text('');
                         $('#send').val('');
                         inputFlag = 0;
@@ -330,17 +296,6 @@
                         sendFlag = 0;
                     }
                  });
-
-                 // 취소버튼 더블클릭 시 초기화
-                //  $('#clear').dblclick(function () {
-                //     console.log("ac-clear");
-                //     $('#clear').val('ac');
-                //     $('#input').val('0');
-                //     $('#send').val('');
-                //     inputFlag = 0;
-                //     sendFlag = 0;
-                //  });
-
 
 
                 // '(' 버튼 클릭 시
@@ -362,7 +317,6 @@
                     var sendBracket = $('#send').val();
                     $('#send').val(sendBracket + $(this).val() + ",");
                 });
-
 
 
                 // ')' 버튼 클릭 시
@@ -416,7 +370,6 @@
                     var sendPower = $('#send').val();
                     $('#send').val(sendPower + "," + $(this).val());
                 });
-                 
 
 
                  //  보여지는 부분 input 초기화
